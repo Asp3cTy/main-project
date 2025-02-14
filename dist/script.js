@@ -1,7 +1,7 @@
 /*******************************************
  * CONFIGURAÇÃO PARA A API (Node + Express)
  *******************************************/
-const API_URL = "https://main-project-1-6hja.onrender.com:${PORT}"; // Ajuste se seu servidor estiver em outra porta/URL
+const API_URL = "https://main-project-1-6hja.onrender.com:10000"; // Ajuste se seu servidor estiver em outra porta/URL
 
 // Quando quisermos de fato EDITAR/EXCLUIR pedidos no banco,
 // precisamos implementar rotas PUT/DELETE no servidor.
