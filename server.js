@@ -34,7 +34,13 @@ module.exports = pool.promise(); // Se estiver usando async/await
 const app = express();
 
 // Middlewares
-app.use(cors());
+const cors = require("cors");
+app.use(cors({
+    origin: "*", // Permitir qualquer origem (idealmente, restrinja para seu frontend)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"]
+}));
+
 app.use(bodyParser.json());
 
 // Servir arquivos estáticos (HTML, CSS, JS) da pasta 'public'
