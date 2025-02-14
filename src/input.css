@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* DEFININDO A BORDA QUADRADA  */
+.btn-primary, .btn-secondary, .btn-accent, .btn-outline, .select-bordered, .input-bordered, .textarea-bordered, .btnCopiarDocumento {
+    border-radius: 0.5rem;
+}
+
+.btnCopiarDocumento {
+    font-weight: 400;
+    font-style: italic;
+    background-color: #1DB88E;
+    border-color: #fff;
+    color: #000;
+}
+
+.btnCopiarDocumento:hover {
+    font-weight: 400;
+    font-style: italic;
+    background-color: #18A07B;
+    border-color: #fff;
+    color: #000;
+
+}
