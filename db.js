@@ -1,16 +1,15 @@
-// db.js
-require('dotenv').config(); // Carrega as variáveis do .env
-const mysql = require("mysql2");
+require('dotenv').config(); // Apenas para ambiente local
 
-// Crie a pool de conexão (ou use createConnection se preferir)
+const mysql = require('mysql2');
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    database: process.env.DB_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,  // Ajuste conforme necessário
+    queueLimit: 0
 });
 
-// Exporta a pool para usar em outros módulos
-module.exports = pool;
-
-
+module.exports = pool.promise(); // Se estiver usando async/await
