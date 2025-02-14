@@ -15,9 +15,19 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     waitForConnections: true,
-    connectionLimit: 10,  // Ajuste conforme necessário
+    connectionLimit: 10,
     queueLimit: 0
 });
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error("Erro na conexão com o banco de dados:", err);
+    } else {
+        console.log("Conexão bem-sucedida!");
+        connection.release();
+    }
+});
+
 
 module.exports = pool.promise(); // Se estiver usando async/await
 
