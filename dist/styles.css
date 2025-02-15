@@ -4925,9 +4925,7 @@ html {
   background: var(--fallback-b1, #ffffff);
   margin-bottom: 1rem;
   display: flex;
-  flex-direction: row; /* Garante que os elementos dentro do pedido fiquem lado a lado */
   gap: 1rem;
-  position: relative;
   width: 365px;
   height: 500px;
 }
