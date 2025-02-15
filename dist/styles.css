@@ -4918,7 +4918,7 @@ html {
 
 /* Ajuste para cada pedido ter scroll individual e não ocupar espaço excessivo */
 .pedido-card {
-        max-height: 34vh;
+max-height: 34vh;
         overflow-y: auto;
         padding: 1rem;
         border-radius: 8px;
@@ -4926,9 +4926,9 @@ html {
         margin-bottom: 1rem;
         display: flex
 ;
-        gap: 1rem;
-        /* width: 365px; */
-        height: 34vh;
+        /* gap: 1rem; */
+        width: 365px;
+        /* height: 500px;
 }
 
 /* Ajuste para garantir que os elementos dentro de cada card fiquem lado a lado */
