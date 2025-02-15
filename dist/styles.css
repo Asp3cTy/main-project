@@ -4881,35 +4881,37 @@ html {
 }
 
 
-/* Ajuste para centralizar o formulário de pedidos corretamente */
+/* Ajuste para centralizar e balancear a altura dos elementos corretamente */
 .container-formulario {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh; /* Reduzi um pouco a altura para evitar problemas de rolagem */
   padding: 2rem;
 }
 
-/* Ajuste para exibir os pedidos lado a lado corretamente */
+/* Ajuste para exibir os pedidos lado a lado sem esticar excessivamente */
 .container-pedidos {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 2rem;
-  height: 90vh; /* Mantém margem para não gerar scroll na página */
+  height: auto; /* Ajusta dinamicamente conforme necessário */
   padding: 1rem;
+  flex-wrap: wrap; /* Permite que os elementos se ajustem melhor em telas menores */
 }
 
-/* Ajuste para cada pedido ter um tamanho ideal e scroll individual */
+/* Ajuste para que cada pedido tenha um tamanho equilibrado e scroll individual */
 .pedido-card {
-  width: 45%; /* Cada card ocupa metade do espaço */
-  max-height: 85vh; /* Define um limite para os cards */
+  width: 48%; /* Cada card ocupa quase metade do espaço */
+  max-height: 65vh; /* Mantém um tamanho confortável para evitar scroll desnecessário */
   overflow-y: auto;
   padding: 1rem;
   border-radius: 8px;
   background: var(--fallback-b1, #ffffff);
 }
 
-/* Correção para que os textos longos dos protocolos quebrem corretamente dentro do card */
+/* Correção para que os textos longos dos protocolos quebrem corretamente */
 .pedido-card .protocolos {
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -4922,7 +4924,7 @@ html {
   margin-top: 5px;
 }
 
-/* Ajuste para evitar que os cards fiquem muito pequenos */
+/* Ajuste para evitar que os cards fiquem muito pequenos e desalinhados */
 .lista-pedidos {
   display: flex;
   flex-direction: column;
@@ -4937,6 +4939,10 @@ html {
   }
   .pedido-card {
     width: 90%; /* Em telas menores, os pedidos ocupam mais espaço */
+  }
+  .container-formulario {
+    height: auto;
+    margin-bottom: 2rem;
   }
 }
 
