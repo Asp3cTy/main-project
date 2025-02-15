@@ -14,7 +14,7 @@ const API_URL = "https://main-project-1-6hja.onrender.com"; // Ajuste se seu ser
 let pedidos = [];
 
 // "Paginação": quantos itens por página, página atual etc.
-const itensPorPagina = 3;
+const itensPorPagina = 2;
 let paginaAtual = 1; // começa na página 1
 
 // Arrays TEMPORÁRIOS para manipular Participantes e Protocolos
