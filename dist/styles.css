@@ -4923,6 +4923,9 @@ html {
   display: flex;
   flex-direction: row; /* Garante que os elementos dentro do pedido fiquem lado a lado */
   gap: 1rem;
+  position: relative;
+  widht: 365px;
+  height: 500px;
 }
 
 /* Ajuste para garantir que os elementos dentro de cada card fiquem lado a lado */
