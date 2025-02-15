@@ -34,7 +34,6 @@ module.exports = pool.promise(); // Se estiver usando async/await
 const app = express();
 
 // Middlewares
-const cors = require("cors");
 app.use(cors({
     origin: "*", // Permitir qualquer origem (idealmente, restrinja para seu frontend)
     methods: ["GET", "POST", "PUT", "DELETE"],
