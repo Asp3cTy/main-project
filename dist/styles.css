@@ -4926,6 +4926,17 @@ html {
   border-radius: 8px;
   background: var(--fallback-b1, #ffffff);
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row; /* Garante que os elementos dentro do pedido fiquem lado a lado */
+  gap: 1rem;
+}
+
+/* Ajuste para garantir que os elementos dentro de cada card fiquem lado a lado */
+.pedido-card .card-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 /* Correção para que os textos longos dos protocolos quebrem corretamente */
@@ -4939,6 +4950,9 @@ html {
 @media screen and (max-width: 900px) {
   .container-principal {
     grid-template-columns: 1fr; /* Empilha os elementos em telas menores */
+  }
+  .pedido-card {
+    flex-direction: column; /* Em telas menores, volta a empilhar os elementos */
   }
 }
 
