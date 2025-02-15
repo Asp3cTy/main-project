@@ -4894,7 +4894,16 @@ html {
   height: 90%;
 }
 
-.container-pedidos {
+.container-esquerda {
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--fallback-b1, #ffffff);
+  border-radius: 8px;
+}
+
+.container-direita {
   width: 100%;
   max-height: 80vh;
   overflow-y: auto;
