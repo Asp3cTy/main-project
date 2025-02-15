@@ -4928,7 +4928,7 @@ html {
   flex-direction: row; /* Garante que os elementos dentro do pedido fiquem lado a lado */
   gap: 1rem;
   position: relative;
-  widht: 365px;
+  width: 365px;
   height: 500px;
 }
 
