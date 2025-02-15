@@ -4962,8 +4962,7 @@ display: flex;
 }
 
 .card-body-direita {
-        display: flex
-;
+        display: flex;
         flex: 1 1 auto;
         flex-direction: column;
         /* padding: var(--padding-card, 1rem); */
