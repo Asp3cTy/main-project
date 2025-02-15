@@ -4881,32 +4881,17 @@ html {
 }
 
 
-/* Ajuste para usar CSS Grid e dividir a tela corretamente */
-.container-geral {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 1rem;
-}
 
-.container-principal {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide em duas colunas iguais */
-  gap: 2rem;
-  width: 90%;
-  max-width: 1200px;
-  align-items: start;
-}
+
 
 /* Ajuste para garantir que o formulário e os pedidos fiquem dentro das colunas */
 .container-formulario {
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   background: var(--fallback-b1, #ffffff);
   padding: 1rem;
   border-radius: 8px;
+  height: 90%;
 }
 
 .container-pedidos {
