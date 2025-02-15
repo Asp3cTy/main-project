@@ -4883,6 +4883,10 @@ html {
 
 
 
+.container-geral {
+  height: auto;
+}
+
 
 /* Ajuste para garantir que o formulário e os pedidos fiquem dentro das colunas */
 .container-formulario {
