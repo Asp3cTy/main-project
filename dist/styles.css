@@ -4881,7 +4881,7 @@ html {
 }
 
 
-/* Ajuste para garantir que o formulário e os pedidos fiquem lado a lado corretamente */
+/* Ajuste para usar CSS Grid e dividir a tela corretamente */
 .container-geral {
   display: flex;
   flex-direction: column;
@@ -4892,18 +4892,17 @@ html {
 }
 
 .container-principal {
-  display: flex;
-  flex-direction: row; /* Mantém os elementos lado a lado */
-  justify-content: space-between;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divide em duas colunas iguais */
   gap: 2rem;
   width: 90%;
   max-width: 1200px;
+  align-items: start;
 }
 
-/* Ajuste para garantir que os pedidos fiquem ao lado do formulário */
+/* Ajuste para garantir que o formulário e os pedidos fiquem dentro das colunas */
 .container-formulario {
-  width: 45%;
+  width: 100%;
   max-width: 500px;
   background: var(--fallback-b1, #ffffff);
   padding: 1rem;
@@ -4911,7 +4910,7 @@ html {
 }
 
 .container-pedidos {
-  width: 50%;
+  width: 100%;
   max-height: 80vh;
   overflow-y: auto;
   padding: 1rem;
@@ -4939,14 +4938,7 @@ html {
 /* Ajuste para telas menores */
 @media screen and (max-width: 900px) {
   .container-principal {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-  .container-formulario, .container-pedidos {
-    width: 48%;
-  }
-  .pedido-card {
-    max-height: 60vh;
+    grid-template-columns: 1fr; /* Empilha os elementos em telas menores */
   }
 }
+
