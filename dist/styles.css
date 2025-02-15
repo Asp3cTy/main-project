@@ -4926,7 +4926,7 @@ max-height: 34vh;
         margin-bottom: 1rem;
         display: flex
 ;
-        /* gap: 1rem; */
+        gap: 0.5rem; 
         width: 365px;
         /* height: 500px;
 }
