@@ -4911,24 +4911,24 @@ html {
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 2rem;
-    background: var(--fallback-b1, #ffffff);
+    /* padding: 2rem; */
+    /* background: var(--fallback-b1, #ffffff); */
     border-radius: 8px;
-    /* margin-left: 10px;
 }
 
 /* Ajuste para cada pedido ter scroll individual e não ocupar espaço excessivo */
 .pedido-card {
-  max-height: 50vh;
-  overflow-y: auto;
-  padding: 1rem;
-  border-radius: 8px;
-  background: var(--fallback-b1, #ffffff);
-  margin-bottom: 1rem;
-  display: flex;
-  gap: 1rem;
-  width: 365px;
-  height: 500px;
+        max-height: 34vh;
+        overflow-y: auto;
+        padding: 1rem;
+        border-radius: 8px;
+        background: var(--fallback-b1, #ffffff);
+        margin-bottom: 1rem;
+        display: flex
+;
+        gap: 1rem;
+        /* width: 365px; */
+        height: 34vh;
 }
 
 /* Ajuste para garantir que os elementos dentro de cada card fiquem lado a lado */
@@ -4962,12 +4962,13 @@ display: flex;
 }
 
 .card-body-direita {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    /* padding: var(--padding-card, 2rem); */
-    gap: 2.5rem;
-    width: 100%;
+        display: flex
+;
+        flex: 1 1 auto;
+        flex-direction: column;
+        /* padding: var(--padding-card, 1rem); */
+        /* gap: 2.5rem; */
+        /* width: 108%;
 }
 
 
