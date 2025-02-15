@@ -5,40 +5,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser"); // ou express.json() nativo
 const path = require('path');
 
-require('dotenv').config(); // Apenas para ambiente local
-
-const mysql = require('mysql2');
-
-const pool = mysql.createPool({
-    host: "database-2.cfs2cmiaucif.sa-east-1.rds.amazonaws.com",
-    user: "admin",
-    password: "palmares",
-    database: "app_db",
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
-
-pool.getConnection((err, connection) => {
-    if (err) {
-        console.error("Erro na conexão com o banco de dados:", err);
-    } else {
-        console.log("Conexão bem-sucedida!");
-        connection.release();
-    }
-});
+const db = require("./db"); // nossa conexão MySQL
 
 
-module.exports = pool.promise(); // Se estiver usando async/await
 
 const app = express();
 
-// Middlewares
-app.use(cors({
-    origin: "*", // Permitir qualquer origem (idealmente, restrinja para seu frontend)
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"]
-}));
 
 app.use(bodyParser.json());
 
