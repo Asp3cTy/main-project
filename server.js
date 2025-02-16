@@ -2,16 +2,18 @@
 
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser"); // ou express.json() nativo
-const path = require('path');
+const bodyParser = require("body-parser");
+const path = require("path");
+const bcrypt = require("bcrypt"); // Para criptografar senhas
+const jwt = require("jsonwebtoken"); // Para autenticação JWT
+
 
 const db = require("./db"); // nossa conexão MySQL
 
 
-
 const app = express();
 
-
+app.use(cors()); // Habilita CORS
 app.use(bodyParser.json());
 
 // Servir arquivos estáticos (HTML, CSS, JS) da pasta 'public'
@@ -21,41 +23,110 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // 1. Rotas para Login
 // ------------------------------
 
-// Exemplo de rota para registrar usuário
-app.post("/register", (req, res) => {
-  const { nome, email, senha } = req.body;
-  if (!nome || !email || !senha) {
-    return res.status(400).json({ error: "Faltam campos obrigatórios" });
+// ------------------------------
+// 1️⃣ ROTAS DE LOGIN E REGISTRO
+// ------------------------------
+
+function register() {
+  const user = document.getElementById("registerUser").value.trim();
+  const pass = document.getElementById("registerPass").value.trim();
+  const confirmPass = document.getElementById("registerConfirmPass").value.trim();
+
+  console.log("📤 Tentando registrar:", user, pass);
+
+  if (!user || !pass || !confirmPass) {
+      showAlert("Preencha todos os campos!", "warning");
+      return;
   }
 
-  // Exemplo: simples, sem hash de senha (apenas para demonstração).
-  // Em produção, use bcrypt/argon2 etc.
-  const sql = "INSERT INTO users (nome, email, senha) VALUES (?, ?, ?)";
-  db.query(sql, [nome, email, senha], (err, result) => {
-    if (err) {
-      console.error("Erro ao inserir usuário:", err);
-      return res.status(500).json({ error: "Erro no servidor" });
-    }
-    return res.json({ message: "Usuário cadastrado com sucesso" });
+  if (pass !== confirmPass) {
+      showAlert("As senhas não coincidem!", "error");
+      return;
+  }
+
+  // Requisição para o servidor
+  fetch("http://localhost:10000/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome: user, usuario: user, senha: pass })
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log("📩 Resposta do servidor:", data);
+      if (data.error) {
+          showAlert(data.error, "error");
+      } else {
+          showAlert(`Usuário ${user} registrado com sucesso!`, "success");
+          setTimeout(() => toggleForms(), 3000);
+      }
+  })
+  .catch(error => console.error("❌ Erro ao conectar:", error));
+}
+
+
+
+
+const secretKey = "seuSegredoUltraSecreto"; // Troque por uma chave segura
+
+app.post("/login", (req, res) => {
+    const { usuario, senha } = req.body;
+
+    const sql = "SELECT * FROM usuarios WHERE LOWER(usuario) = ?";
+    db.query(sql, [usuario.toLowerCase()], async (err, results) => {
+        if (err) return res.status(500).json({ error: "Erro no servidor" });
+
+        if (results.length === 0) return res.status(401).json({ error: "Usuário não encontrado!" });
+
+        const user = results[0];
+        const senhaValida = await bcrypt.compare(senha, user.senha_hash);
+
+        if (!senhaValida) return res.status(401).json({ error: "Senha inválida!" });
+
+        // Gera o token JWT
+        const token = jwt.sign({ id: user.id, usuario: user.usuario }, secretKey, { expiresIn: "2h" });
+
+        return res.json({ message: "Login bem-sucedido!", token });
+    });
+});
+
+
+
+
+app.post("/validar-token", (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1]; // Pega o token do cabeçalho
+
+  if (!token) return res.status(401).json({ error: "Token não fornecido" });
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) return res.status(401).json({ error: "Token inválido ou expirado" });
+
+      return res.json({ usuario: decoded.usuario });
   });
 });
 
-// Exemplo de rota para login (apenas demonstração, sem JWT)
-app.post("/login", (req, res) => {
-  const { email, senha } = req.body;
-  const sql = "SELECT * FROM users WHERE email = ? AND senha = ?";
-  db.query(sql, [email, senha], (err, rows) => {
-    if (err) {
-      console.error("Erro ao buscar usuário:", err);
-      return res.status(500).json({ error: "Erro no servidor" });
-    }
-    if (rows.length === 0) {
-      return res.status(401).json({ error: "Credenciais inválidas" });
-    }
-    // Autenticação OK
-    return res.json({ message: "Login bem-sucedido", user: rows[0] });
+
+// Middleware para verificar token JWT
+function autenticarToken(req, res, next) {
+  const token = req.headers["authorization"];
+  if (!token) return res.status(401).json({ error: "Acesso negado!" });
+
+  jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(403).json({ error: "Token inválido!" });
+    req.usuario = decoded;
+    next();
   });
+}
+
+// ------------------------------
+// 2️⃣ PROTEGENDO ROTAS
+// ------------------------------
+
+// Exemplo de rota protegida que só pode ser acessada com login válido
+app.get("/usuario", autenticarToken, (req, res) => {
+  return res.json({ message: `Olá, ${req.usuario.usuario}!`, usuario: req.usuario.usuario });
 });
+
+
 
 // ------------------------------
 // 2. Rotas para PEDIDOS
@@ -168,7 +239,7 @@ app.post("/pedidos", (req, res) => {
 // GET /pedidos
 app.get("/pedidos", (req, res) => {
   // 1) Ler todos os pedidos
-  const sqlPedidos = "SELECT * FROM pedidos ORDER BY id DESC";
+  const sqlPedidos = "SELECT * FROM pedidos ORDER BY numero_pedido DESC";
   db.query(sqlPedidos, (err, rowsPedidos) => {
     if (err) {
       console.error("Erro ao listar pedidos:", err);
@@ -497,3 +568,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
