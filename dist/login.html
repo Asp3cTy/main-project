@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.0.0/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>MyCert! Login</title>
+
+    <style>
+        /* Animação de surgimento dos alerts */
+        .alert-animation {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-base-200 flex flex-col items-center justify-center min-h-screen">
+
+
+
+    <!-- Formulário Container -->
+    <div id="formContainer" class="bg-base-100 shadow-lg rounded-lg p-8 w-96 mt-10 transition-transform duration-500">
+        
+        <!-- Logo -->
+        <div class="flex justify-center mb-4">
+            <img src="mycert.svg" alt="Logo" class="rounded-full">
+        </div>
+
+        <!-- Formulário de Login -->
+        <form id="loginForm">
+
+            <div class="mt-4">
+                <label class="label"><span class="label-text">Usuário</span></label>
+                <input type="text" id="loginUser" placeholder="Digite seu usuário" class="input input-bordered w-full">
+            </div>
+
+            <div class="mt-4">
+                <label class="label"><span class="label-text">Senha</span></label>
+                <input type="password" id="loginPass" placeholder="Digite sua senha" class="input input-bordered w-full">
+            </div>
+
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary w-full" onclick="login()">Entrar</button>
+            </div>
+
+            <div class="text-center mt-2">
+                <a href="#" class="text-sm text-primary" onclick="toggleForms()">Criar uma conta</a>
+            </div>
+        </form>
+
+        <!-- Formulário de Registro -->
+        <form id="registerForm" class="hidden">
+            <h2 class="text-center text-2xl font-bold">Registrar</h2>
+
+            <div class="mt-4">
+                <label class="label"><span class="label-text">Usuário</span></label>
+                <input type="text" id="registerUser" placeholder="Digite seu usuário" class="input input-bordered w-full">
+            </div>
+
+            <div class="mt-4">
+                <label class="label"><span class="label-text">Senha</span></label>
+                <input type="password" id="registerPass" placeholder="Digite sua senha" class="input input-bordered w-full">
+            </div>
+
+            <div class="mt-4">
+                <label class="label"><span class="label-text">Confirmar Senha</span></label>
+                <input type="password" id="registerConfirmPass" placeholder="Confirme sua senha" class="input input-bordered w-full">
+            </div>
+
+            <div class="mt-4">
+                <button type="button" class="btn btn-success w-full" onclick="register()">Registrar</button>
+            </div>
+
+            <div class="text-center mt-2">
+                <a href="#" class="text-sm text-primary" onclick="toggleForms()">Já tem uma conta? Faça login</a>
+            </div>
+        </form>
+
+        <!-- Área de Alertas -->
+        <div id="alertContainer" class="mt-4 space-y-2"></div>
+
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            loginForm.classList.toggle("hidden");
+            registerForm.classList.toggle("hidden");
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById("alertContainer");
+            const alertDiv = document.createElement("div");
+            alertDiv.className = `alert alert-${type} shadow-lg alert-animation`;
+            alertDiv.innerHTML = `
+                <span>${message}</span>
+                <button class="btn btn-sm btn-circle btn-ghost" onclick="this.parentElement.remove()">✕</button>
+            `;
+            alertContainer.appendChild(alertDiv);
+
+            // Remove automaticamente após 3 segundos
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        function login() {
+    const user = document.getElementById("loginUser").value.trim();
+    const pass = document.getElementById("loginPass").value.trim();
+
+    fetch("http://localhost:10000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario: user, senha: pass })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            showAlert(data.error, "error");
+        } else {
+            showAlert("Login bem-sucedido!", "success");
+
+            // Salva o token em sessionStorage (melhor que localStorage para segurança)
+            sessionStorage.setItem("token", data.token);
+
+            setTimeout(() => {
+                window.location.href = "/index.html";
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error("❌ Erro ao conectar:", error);
+        showAlert("Erro ao conectar ao servidor!", "error");
+    });
+}
+
+
+
+
+        function register() {
+            const user = document.getElementById("registerUser").value.trim();
+            const pass = document.getElementById("registerPass").value.trim();
+            const confirmPass = document.getElementById("registerConfirmPass").value.trim();
+
+            if (!user || !pass || !confirmPass) {
+                showAlert("Preencha todos os campos!", "warning");
+                return;
+            }
+
+            if (pass !== confirmPass) {
+                showAlert("As senhas não coincidem!", "error");
+                return;
+            }
+
+            showAlert(`Usuário ${user} registrado com sucesso!`, "success");
+            setTimeout(() => toggleForms(), 3000);
+        }
+
+        function logout() {
+    showAlert("Você saiu!", "info");
+    sessionStorage.removeItem("token");
+    setTimeout(() => window.location.href = "login.html", 1000);
+}
+
+
+        // Verifica se há usuário logado e exibe na navbar
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioLogado = localStorage.getItem("usuarioLogado");
+            if (usuarioLogado) {
+                document.getElementById("userGreeting").textContent = `Olá, ${usuarioLogado}`;
+                document.getElementById("userGreeting").classList.remove("hidden");
+            }
+        });
+    </script>
+
+</body>
+</html>
