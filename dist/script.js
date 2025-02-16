@@ -131,7 +131,7 @@ function cadastrarOuAlterarPedido() {
       })
       .then((dados) => {
         console.log("Pedido cadastrado:", dados);
-        alert(dados.message || "Pedido criado com sucesso");
+        alert(dados.message || "Pedido excluído com sucesso!");
         // Limpa form
         limparPedidoForm();
         // Recarrega do servidor
@@ -153,6 +153,7 @@ function cadastrarOuAlterarPedido() {
     limparPedidoForm();
 
     // Re-render local
+    listarPedidosDoServidor()
     renderListaPedidos();
   }
 }
@@ -226,7 +227,13 @@ function renderListaPedidos() {
   const container = document.getElementById("lista-pedidos");
   container.innerHTML = "";
 
-  // Calcular quantos itens exibir
+  // Defina quantos itens por página
+  const itensPorPagina = 2;
+
+  // Garante que 'pedidos' esteja em ordem (desc) se não estiver. 
+  // Se seu back-end já retorna ORDER BY id DESC, não precisa mexer:
+  // pedidos.sort((a, b) => b.id - a.id);
+
   const totalPedidos = pedidos.length;
   const startIndex = (paginaAtual - 1) * itensPorPagina;
   const endIndex = startIndex + itensPorPagina;
@@ -235,15 +242,20 @@ function renderListaPedidos() {
   paginaPedidos.forEach((pedido, indexRelativo) => {
     const indexAbsoluto = startIndex + indexRelativo;
 
-    // Formatar data
+    // Formatar data ISO -> dd/mm/yyyy
     const dataFormatada = formatarDataISOParaBR(pedido.data);
 
-    // Cor para resultadoOnus
-    let corOnus = "text-blue-400"; // default p/ NEGATIVA
-    if (pedido.resultadoOnus === "POSITIVA") corOnus = "text-red-400";
-    else if (pedido.resultadoOnus === "INDETERMINADA") corOnus = "text-yellow-300";
+    // Cores do resultado Onus
+    let corOnus = "";
+    if (pedido.resultadoOnus === "NEGATIVA") {
+      corOnus = "colorNegative";
+    } else if (pedido.resultadoOnus === "POSITIVA") {
+      corOnus = "colorPositive";
+    } else if (pedido.resultadoOnus === "INDETERMINADA") {
+      corOnus = "colorIndertimine";
+    }
 
-    // Mostrar "CÓDIGO ARIRJ" ou "CÓDIGO E-CARTÓRIO"
+    // Mostra Código Arirj/E-Cartório
     let textoCodigo = "";
     if (pedido.tipoCertidao === "ARIRJ") {
       textoCodigo = `<p><strong>CÓDIGO ARIRJ:</strong> ${pedido.codigoCertidao}</p>`;
@@ -251,20 +263,24 @@ function renderListaPedidos() {
       textoCodigo = `<p><strong>CÓDIGO E-CARTÓRIO:</strong> ${pedido.codigoCertidao}</p>`;
     }
 
-    // Montar Participantes
+    // Monta participantes (botão “Copiar Doc” menor)
     let htmlParticipantes = "";
     if (!pedido.participantes || pedido.participantes.length === 0) {
       htmlParticipantes = "<p>Nenhum participante</p>";
     } else {
       pedido.participantes.forEach((p) => {
-        const orgaoFinal =
-          p.orgaoEmissorSelect === "OUTRO" ? p.orgaoEmissorOutro : p.orgaoEmissorSelect;
-
+        const orgaoFinal = (p.orgaoEmissorSelect === "OUTRO") ? p.orgaoEmissorOutro : p.orgaoEmissorSelect;
         if (p.tipoDocumento === "CPF") {
           htmlParticipantes += `
             <p>
               ${p.qualificacao} - ${p.nome} - ${p.cpf} - ${p.genero} - ${p.identidade} - ${orgaoFinal} - ${p.estadoCivil}
-              <button class="btn btn-xs  btnCopiarDocumento ml-2" onclick="copiarDocumento('${p.cpf}')">Copiar Documento</button>
+<!-- Ícone de Copiar -->
+     <button class="btnCopy" onclick="copiarDocumento('${p.cpf}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#FFFFFF" d="M 18.5 5 C 15.467 5 13 7.467 13 10.5 L 13 32.5 C 13 35.533 15.467 38 18.5 38 L 34.5 38 C 37.533 38 40 35.533 40 32.5 L 40 10.5 C 40 7.467 37.533 5 34.5 5 L 18.5 5 z M 11 10 L 9.78125 10.8125 C 8.66825 11.5545 8 12.803625 8 14.140625 L 8 33.5 C 8 38.747 12.253 43 17.5 43 L 30.859375 43 C 32.197375 43 33.4465 42.33175 34.1875 41.21875 L 35 40 L 17.5 40 C 13.91 40 11 37.09 11 33.5 L 11 10 z"></path>
+          </svg>
+          <span class="tooltip">Copiar CPF de ${p.nome}</span>
+        </button>
             </p>
           `;
         } else {
@@ -272,60 +288,92 @@ function renderListaPedidos() {
           htmlParticipantes += `
             <p>
               ${p.qualificacao} - ${p.nome} - ${p.cnpj}
-              <button class="btn btn-xs btnCopiarDocumento ml-2" onclick="copiarDocumento('${p.cnpj}')">Copiar Documento</button>
+<!-- Ícone de Copiar -->
+     <button class="btnCopy" onclick="copiarDocumento('${p.cnpj}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#FFFFFF" d="M 18.5 5 C 15.467 5 13 7.467 13 10.5 L 13 32.5 C 13 35.533 15.467 38 18.5 38 L 34.5 38 C 37.533 38 40 35.533 40 32.5 L 40 10.5 C 40 7.467 37.533 5 34.5 5 L 18.5 5 z M 11 10 L 9.78125 10.8125 C 8.66825 11.5545 8 12.803625 8 14.140625 L 8 33.5 C 8 38.747 12.253 43 17.5 43 L 30.859375 43 C 32.197375 43 33.4465 42.33175 34.1875 41.21875 L 35 40 L 17.5 40 C 13.91 40 11 37.09 11 33.5 L 11 10 z"></path>
+          </svg>
+                    <span class="tooltip">Copiar CNPJ de ${p.nome}</span>
+        </button>
             </p>
           `;
         }
       });
     }
 
-    // Montar Protocolos
-    let htmlProtocolos = "";
-    if (!pedido.protocolos || pedido.protocolos.length === 0) {
-      htmlProtocolos = "<p>Nenhum protocolo</p>";
-    } else {
-      pedido.protocolos.forEach((prot) => {
-        htmlProtocolos += `<p>${prot} <button class="btn btn-xs btnCopiarDocumento ml-2" onclick="copiarDocumento(\`${prot}\`)">Copiar</button></p>`;
-      });
-    }
+// Monta protocolos corretamente com quebra de linha
+let htmlProtocolos = "";
+if (!pedido.protocolos || pedido.protocolos.length === 0) {
+  htmlProtocolos = "<p class='break-words w-full'>Nenhum protocolo</p>";
+} else {
+  htmlProtocolos = `<div class="space-y-2 w-full break-words overflow-hidden">`;
+  pedido.protocolos.forEach((prot) => {
+    htmlProtocolos += `
+      <div class="flex w-full items-center justify-between">
+        <p class="break-words w-full overflow-hidden whitespace-normal inline">${prot}        <button class="btnCopy" onclick="copiarDocumento('${prot}')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#FFFFFF" d="M 18.5 5 C 15.467 5 13 7.467 13 10.5 L 13 32.5 C 13 35.533 15.467 38 18.5 38 L 34.5 38 C 37.533 38 40 35.533 40 32.5 L 40 10.5 C 40 7.467 37.533 5 34.5 5 L 18.5 5 z M 11 10 L 9.78125 10.8125 C 8.66825 11.5545 8 12.803625 8 14.140625 L 8 33.5 C 8 38.747 12.253 43 17.5 43 L 30.859375 43 C 32.197375 43 33.4465 42.33175 34.1875 41.21875 L 35 40 L 17.5 40 C 13.91 40 11 37.09 11 33.5 L 11 10 z"></path>
+          </svg>
+          <span class="tooltip">Copiar Protocolo pra Area de Transferência</span>
+        </button></p>
 
-    // Montar HTML final
-    const html = `
-      <div class="card bg-neutral text-neutral-content p-4 space-y-1 pedido-card 
-                  max-h-64 overflow-auto">
-        <!-- Botão hamburger no topo direito -->
-        <div class="dropdown dropdown-end menu-botao">
-          <label tabindex="0" class="btn btn-sm btn-ghost text-white">
-            &#9776;
-          </label>
-          <ul tabindex="0"
-              class="dropdown-content menu p-2 shadow bg-base-100 text-base-content rounded-box w-36">
-            <li><a onclick="editarPedido(${indexAbsoluto})" class="text-blue-600">Editar</a></li>
-            <li><a onclick="copiarPedido(${indexAbsoluto})" class="text-green-600">Copiar</a></li>
-            <li><a onclick="excluirPedido(${indexAbsoluto})" class="text-red-600">Excluir</a></li>
-          </ul>
-        </div>
-
-        <p><strong>N.º Pedido:</strong> ${pedido.numeroPedido}</p>
-        <p><strong>Data:</strong> ${dataFormatada}</p>
-        <p><strong>N.º Matrícula:</strong> ${pedido.matricula}</p>
-        <p>
-          <strong>Resultado da Ônus:</strong>
-          <span class="${corOnus} font-bold">${pedido.resultadoOnus}</span>
-        </p>
-        <p><strong>N.º de Folhas:</strong> ${pedido.numFolhas}</p>
-        <p><strong>N.º de Imagens:</strong> ${pedido.numImagens}</p>
-        <p><strong>Tipo de Certidão:</strong> ${pedido.tipoCertidao}</p>
-        ${textoCodigo}
-        <p><strong>Participantes:</strong></p>
-        ${htmlParticipantes}
-        <p><strong>Protocolos:</strong></p>
-        ${htmlProtocolos}
       </div>
     `;
-    container.innerHTML += html;
+  });
+  htmlProtocolos += `</div>`;
+}
+
+
+
+    
+    
+
+const htmlCard = `
+  <div class="card scroll-container bg-neutral text-neutral-content p-4 space-y-1
+              max-h-40 overflow-auto pedido-card relative
+              overflow-y-auto break-words w-full max-w-full">
+              
+      <!-- Menu Hambúrguer fixo -->
+    <div id="menu-hamburgo" class="menu-botao sticky top-0 right-0 z-10 bg-neutral p-2 flex justify-end">
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-sm btn-ghost text-white">
+          &#9776;
+        </label>
+        <ul tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 text-base-content rounded-box w-36">
+          <li><a onclick="editarPedido(${indexAbsoluto})" class="text-blue-600">Editar</a></li>
+          <li><a onclick="copiarPedido(${indexAbsoluto})" class="text-green-600">Copiar</a></li>
+          <li><a onclick="excluirPedido(${indexAbsoluto})" class="text-red-600">Excluir</a></li>
+        </ul>
+      </div>
+    </div>        
+    <!-- Número do Pedido (Fixa só o menu, deixando esse normal) -->
+    <p ><strong class="alterarCor">N.º Pedido:</strong> ${pedido.numeroPedido}</p>
+    <p><strong>Data:</strong> ${dataFormatada}</p>
+    <p><strong>Matrícula:</strong> ${pedido.matricula}</p>
+    <p>
+      <strong>Resultado da Ônus:</strong>
+      <span class="${corOnus} font-bold">${pedido.resultadoOnus}</span>
+    </p>
+    <p><strong>N.º de Folhas:</strong> ${pedido.numFolhas}</p>
+    <p><strong>N.º de Imagens:</strong> ${pedido.numImagens}</p>
+    <p><strong>Tipo de Certidão:</strong> ${pedido.tipoCertidao}</p>
+    ${textoCodigo}
+    <p><strong>Participantes:</strong></p>
+    ${htmlParticipantes}
+    <p><strong>Protocolos:</strong></p>
+    ${htmlProtocolos}
+  </div>
+`;
+
+// Adiciona ao container
+container.innerHTML += htmlCard;
+
+
+
   });
 }
+
 
 
 /*******************************************
@@ -356,6 +404,7 @@ let editandoPedidoId = null;    // ID real do pedido no banco de dados
  * Função para Editar um Pedido
  * - Chamado ao clicar em "Editar" no card
  *******************************************/
+
 function editarPedido(index) {
   const pedido = pedidos[index];
   if (!pedido) {
@@ -368,13 +417,36 @@ function editarPedido(index) {
   editandoPedidoId = pedido.id; // ID real do BD
 
   // Ajusta títulos do formulário
-  document.getElementById("tituloFormPedido").textContent = "Edição de Pedido";
-  document.getElementById("btnCadastrarPedido").textContent = "Confirmar Alteração";
-  document.getElementById("tituloPrincipal").textContent = "Edição de Pedido";
+  let tituloForm = document.getElementById("tituloFormPedido");
+  if (tituloForm) {
+      tituloForm.textContent = "Edição de Pedido";
+      console.log(document.getElementById("tituloFormPedido"));
+
+  } else {
+      console.warn("Elemento 'tituloFormPedido' não encontrado.");
+  }
+  
+  
+  let btnCadastrar = document.getElementById("btnCadastrarPedido");
+  if (btnCadastrar) {
+      btnCadastrar.textContent = "Confirmar Alteração";
+  }
+  
+  let tituloPrincipal = document.getElementById("tituloPrincipal");
+  if (tituloPrincipal) {
+      tituloPrincipal.textContent = "Edição de Pedido";
+  }
+  
+
+
+  let data = new Date();
+let dataFormatada = data.toISOString().split("T")[0];
+
+
 
   // Preenche campos do formulário
   document.getElementById("numeroPedido").value = pedido.numeroPedido || "";
-  document.getElementById("dataPedido").value = pedido.data || "";
+  document.getElementById("dataPedido").value = dataFormatada || "";
   document.getElementById("matricula").value = pedido.matricula || "";
   document.getElementById("resultadoOnus").value = pedido.resultadoOnus || "NEGATIVA";
   document.getElementById("numFolhas").value = pedido.numFolhas || "";
@@ -389,7 +461,6 @@ function editarPedido(index) {
   participantesTemp = pedido.participantes ? [...pedido.participantes] : [];
   protocolosTemp = pedido.protocolos ? [...pedido.protocolos] : [];
 }
-
 /*******************************************
  * Função para Cadastrar OU Alterar Pedido
  * - Se não estamos editando, cria novo (POST)
@@ -529,7 +600,7 @@ Tipo de Certidão: ${pedido.tipoCertidao}
   }
 
   navigator.clipboard.writeText(texto.trim()).then(() => {
-    alert("Pedido copiado para a área de transferência!");
+    alert("Pedido copiado para a área de transferência!", "info");
   });
 }
 
@@ -911,6 +982,7 @@ function excluirPedido(index) {
       console.log(dados.message);
       // Agora recarrega a lista
       alert("Pedido excluído com sucesso!");
+
       listarPedidosDoServidor();
     })
     .catch((err) => {
@@ -919,4 +991,77 @@ function excluirPedido(index) {
     });
 }
 
+function logout() {
+  showAlert("Você saiu!", "info");
 
+  // Remove o token e impede que o usuário volte para a página sem login
+  sessionStorage.removeItem("token");
+
+  // Aguarda 1 segundo antes de redirecionar para garantir a execução correta
+  setTimeout(() => {
+      window.location.href = "login.html";
+  }, 1000);
+}
+
+
+function atualizarUserGreeting() {
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  const userGreeting = document.getElementById("userGreeting");
+
+  if (usuarioLogado) {
+      const nomeFormatado = formatarNome(usuarioLogado);
+      userGreeting.textContent = `Olá, ${nomeFormatado}`;
+      userGreeting.classList.remove("hidden");
+  } else {
+      userGreeting.classList.add("hidden"); // Esconde se não houver usuário logado
+  }
+}
+
+// Formatar nome para primeira letra maiúscula em cada palavra
+function formatarNome(nome) {
+  return nome
+      .toLowerCase()
+      .split(" ")
+      .map(palavra => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(" ");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const token = sessionStorage.getItem("token");
+
+  if (!token) {
+      console.log("🔒 Nenhum token encontrado, redirecionando para login...");
+      window.location.href = "login.html"; // Redireciona para login se não houver token
+  } else {
+      validarToken(token);
+  }
+});
+
+// Função para validar o token no servidor
+function validarToken(token) {
+  fetch("https://main-project-1-6hja.onrender.com/validar-token", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` }
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error("Token inválido ou expirado");
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log("✅ Token válido, usuário autenticado:", data.usuario);
+  })
+  .catch(error => {
+      console.error("❌ Erro na autenticação:", error);
+
+      // Remove token inválido e redireciona para login
+      sessionStorage.removeItem("token");
+      window.location.href = "login.html";
+  });
+}
+
+
+
+// Executa automaticamente ao carregar a página
+document.addEventListener("DOMContentLoaded", atualizarUserGreeting);
