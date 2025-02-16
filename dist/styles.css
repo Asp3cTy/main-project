@@ -227,7 +227,7 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-  -webkit-appearance: button;
+  appearance: button;
   /* 1 */
   background-color: transparent;
   /* 2 */
@@ -2811,6 +2811,7 @@ html {
 @media (min-width: 1536px) {
   .container {
     max-width: 1536px;
+    max-width: max-content;
   }
 }
 
@@ -2951,7 +2952,9 @@ html {
   display: flex;
   flex-direction: column;
   border-radius: var(--rounded-box, 1rem);
+  height: 83rem;
 }
+
 
 .card:focus {
   outline: 2px solid transparent;
@@ -2962,7 +2965,6 @@ html {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  padding: var(--padding-card, 2rem);
   gap: 0.5rem;
 }
 
@@ -4447,6 +4449,7 @@ html {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   font-size: 0.875rem;
+  margin-top: 3rem;
 }
 
 .btn-square:where(.btn-sm) {
@@ -4670,7 +4673,7 @@ html {
 }
 
 .mx-auto {
-  margin-left: auto;
+  margin-left: -0.5vh;
   margin-right: auto;
 }
 
@@ -4860,127 +4863,136 @@ html {
 
 /* DEFININDO A BORDA QUADRADA  */
 
-.btn-primary, .btn-secondary, .btn-accent, .btn-outline, .select-bordered, .input-bordered, .textarea-bordered, .btnCopiarDocumento {
+.btn-primary, .btn-secondary, .btn-accent, .btn-outline, .select-bordered, .input-bordered, .textarea-bordered {
   border-radius: 0.5rem;
 }
 
-.btnCopiarDocumento {
-  font-weight: 400;
-  font-style: italic;
-  background-color: #1DB88E;
-  border-color: #fff;
-  color: #000;
-}
-
-.btnCopiarDocumento:hover {
-  font-weight: 400;
-  font-style: italic;
-  background-color: #18A07B;
-  border-color: #fff;
-  color: #000;
-}
-
-
-
-
-.container-geral {
-  height: 90%;
-}
-
-
-/* Ajuste para garantir que o formulário e os pedidos fiquem dentro das colunas */
-.container-formulario {
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem;
-  border-radius: 8px;
-  height: 90vh;
-}
-
-.container-esquerda {
-    width: 100%;
-    max-height: 64vh;
-    overflow-y: auto;
-    padding: 1rem;
-    background: var(--fallback-b1, #ffffff);
-    border-radius: 8px;
-    margin-left: auto;
-    margin-top: auto;
-    margin: auto;
-}
-
-.container-direita {
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 2rem;
-    /* background: var(--fallback-b1, #ffffff); */
-    border-radius: 8px;
-    margin: auto;
-}
-
-/* Ajuste para cada pedido ter scroll individual e não ocupar espaço excessivo */
-.pedido-card {
-max-height: 34vh;
-        overflow-y: auto;
-        padding: 1rem;
-        border-radius: 8px;
-        background: var(--fallback-b1, #ffffff);
-        margin-bottom: 1rem;
-        display: flex
-;
-        gap: 0.5rem; 
-        width: 365px;
-        /* height: 500px;
-}
-
-/* Ajuste para garantir que os elementos dentro de cada card fiquem lado a lado */
-.pedido-card .card-body {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* Correção para que os textos longos dos protocolos quebrem corretamente */
-.pedido-card .protocolos {
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  overflow-x: hidden;
-}
-
 #lista-pedidos {
-max-height: 80vh;
+  width: auto !important;
+  overflow-x: auto !important;
+}
+
+
+.container {
+  max-width: max-content;
+  width: 98%;
+}
+
+.pedido-card {
+  position: relative;
+  overflow-y: auto;
+  height: 35vh;
+}
+
+.pedido-card p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+
+.menu-botao {
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0; /* Removendo o espaçamento extra */
+  background: transparent;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* Alinha verticalmente com o texto */
+  height: 0; /* Evita que ocupe espaço extra */
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estiliza o botão */
+.btnCopy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Esconde o tooltip por padrão */
+.tooltip {
+  position: absolute;
+  background: white;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
   
+  /* Posição acima do botão */
+  bottom: 125%;
+  left: 70%;
+  transform: translateX(-50%);
 }
 
-.card-body-esquerda {
-display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    padding: var(--padding-card, 2rem);
-    gap: 8.5rem;
-    width: 100%;
-
-}
-
-.card-body-direita {
-        display: flex;
-        flex: 1 1 auto;
-        flex-direction: column;
-        /* padding: var(--padding-card, 1rem); */
-        /* gap: 2.5rem; */
-        /* width: 108%;
+/* Mostra o tooltip quando o usuário passa o mouse */
+.btnCopy:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 
-/* Ajuste para telas menores */
-@media screen and (max-width: 900px) {
-  .container-principal {
-    grid-template-columns: 1fr; /* Empilha os elementos em telas menores */
-  }
-  .pedido-card {
-    flex-direction: column; /* Em telas menores, volta a empilhar os elementos */
-  }
+/* Esconde a barra de rolagem até que o usuário role */
+.scroll-container {
+overflow-y: auto;
+overflow-x: hidden;
+scrollbar-gutter: stable;
+
 }
 
+/* Estiliza a barra de rolagem no Chrome, Edge e Safari */
+.scroll-container::-webkit-scrollbar {
+  width: 0px; /* Largura da barra */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Cor do "polegar" */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent; /* Deixa o fundo invisível */
+}
+
+
+.colorNegative {
+  color: green;
+}
+
+.colorPositive {
+  color: red;
+}
+
+.colorIndertimine {
+  color: yellow;
+}
+
+.btnFecharModal {
+  margin: 1rem;
+}
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
