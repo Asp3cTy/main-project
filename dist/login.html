@@ -120,7 +120,7 @@
     const user = document.getElementById("loginUser").value.trim();
     const pass = document.getElementById("loginPass").value.trim();
 
-    fetch("http://localhost:10000/login", {
+    fetch("https://main-project-1-6hja.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario: user, senha: pass })
