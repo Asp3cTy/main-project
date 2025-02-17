@@ -1062,6 +1062,95 @@ function validarToken(token) {
 }
 
 
+        function toggleForms() {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            loginForm.classList.toggle("hidden");
+            registerForm.classList.toggle("hidden");
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById("alertContainer");
+            const alertDiv = document.createElement("div");
+            alertDiv.className = `alert alert-${type} shadow-lg alert-animation`;
+            alertDiv.innerHTML = `
+                <span>${message}</span>
+                <button class="btn btn-sm btn-circle btn-ghost" onclick="this.parentElement.remove()">✕</button>
+            `;
+            alertContainer.appendChild(alertDiv);
+
+            // Remove automaticamente após 3 segundos
+            setTimeout(() => alertDiv.remove(), 3000);
+        }
+
+        function login() {
+    const user = document.getElementById("loginUser").value.trim();
+    const pass = document.getElementById("loginPass").value.trim();
+
+    fetch("https://main-project-1-6hja.onrender.com/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario: user, senha: pass })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            showAlert(data.error, "error");
+        } else {
+            showAlert("Login bem-sucedido!", "success");
+
+            // Salva o token em sessionStorage (melhor que localStorage para segurança)
+            sessionStorage.setItem("token", data.token);
+
+            setTimeout(() => {
+                window.location.href = "/index.html";
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error("❌ Erro ao conectar:", error);
+        showAlert("Erro ao conectar ao servidor!", "error");
+    });
+}
+
+
+
+
+        function register() {
+            const user = document.getElementById("registerUser").value.trim();
+            const pass = document.getElementById("registerPass").value.trim();
+            const confirmPass = document.getElementById("registerConfirmPass").value.trim();
+
+            if (!user || !pass || !confirmPass) {
+                showAlert("Preencha todos os campos!", "warning");
+                return;
+            }
+
+            if (pass !== confirmPass) {
+                showAlert("As senhas não coincidem!", "error");
+                return;
+            }
+
+            showAlert(`Usuário ${user} registrado com sucesso!`, "success");
+            setTimeout(() => toggleForms(), 3000);
+        }
+
+        function logout() {
+    showAlert("Você saiu!", "info");
+    sessionStorage.removeItem("token");
+    setTimeout(() => window.location.href = "login.html", 1000);
+}
+
+
+        // Verifica se há usuário logado e exibe na navbar
+        document.addEventListener("DOMContentLoaded", () => {
+            const usuarioLogado = localStorage.getItem("usuarioLogado");
+            if (usuarioLogado) {
+                document.getElementById("userGreeting").textContent = `Olá, ${usuarioLogado}`;
+                document.getElementById("userGreeting").classList.remove("hidden");
+            }
+        });
+
 
 // Executa automaticamente ao carregar a página
 document.addEventListener("DOMContentLoaded", atualizarUserGreeting);
