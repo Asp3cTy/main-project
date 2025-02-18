@@ -2952,7 +2952,7 @@ html {
   display: flex;
   flex-direction: column;
   border-radius: var(--rounded-box, 1rem);
-  height: 83rem;
+  height: 90rem;
 }
 
 
