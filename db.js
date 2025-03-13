@@ -1,16 +1,15 @@
 // db.js
-require('dotenv').config(); // Carrega as variáveis do .env
-const mysql = require("mysql2");
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-// Crie a pool de conexão (ou use createConnection se preferir)
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+// Cria uma nova instância do banco de dados SQLite3
+const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
+    if (err) {
+        console.error('Erro ao conectar ao banco de dados SQLite3:', err.message);
+    } else {
+        console.log('Conectado ao banco de dados SQLite3.');
+    }
 });
 
-// Exporta a pool para usar em outros módulos
-module.exports = pool;
-
-
+// Exporta a instância do banco de dados para usar em outros módulos
+module.exports = db;
