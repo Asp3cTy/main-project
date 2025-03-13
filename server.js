@@ -520,7 +520,7 @@ app.put("/pedidos/:id", (req, res) => {
                             VALUES (?, ?)
                         `;
                         protocolos.forEach(obs => {
-                            db.run(sqlProt, [id, obs],                         err3) => {
+                            db.run(sqlProt, [id, obs],                         (err3) => {
                             if (err3) console.error("Erro ao inserir protocolos (PUT):", err3);
                         });
                     });
