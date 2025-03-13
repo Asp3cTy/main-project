@@ -112,42 +112,139 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 const secretKey = "seuSegredoUltraSecreto"; // Troque por uma chave segura
 
+// 1. Primeiro, habilitar FOREIGN KEYS no SQLite (adicionar após a conexão com o DB)
+db.run("PRAGMA foreign_keys = ON;", (err) => {
+  if (err) console.error("Erro ao habilitar foreign keys:", err.message);
+  else console.log("Foreign keys habilitadas com sucesso");
+});
+
+// 2. Modificar a rota de registro para verificar se o usuário foi inserido
 app.post("/register", (req, res) => {
     const { nome, usuario, senha } = req.body;
+
+    // Verificação e validação de campos
+    if (!nome || !usuario || !senha) {
+        return res.status(400).json({ error: "Todos os campos são obrigatórios" });
+    }
 
     // Verifica se o usuário já existe
     const sql = "SELECT * FROM usuarios WHERE LOWER(usuario) = ?";
     db.get(sql, [usuario.toLowerCase()], async (err, row) => {
-        if (err) return res.status(500).json({ error: "Erro no servidor" });
-        if (row) return res.status(400).json({ error: "Usuário já existe" });
+        if (err) {
+            console.error("Erro ao verificar usuário:", err);
+            return res.status(500).json({ error: "Erro no servidor" });
+        }
+        
+        if (row) {
+            return res.status(400).json({ error: "Usuário já existe" });
+        }
 
-        // Criptografa a senha
-        const senha_hash = await bcrypt.hash(senha, 10);
+        try {
+            // Criptografa a senha
+            const senha_hash = await bcrypt.hash(senha, 10);
 
-        // Insere o novo usuário
-        const insertSql = `INSERT INTO usuarios (nome, usuario, senha_hash) VALUES (?, ?, ?)`;
-        db.run(insertSql, [nome, usuario, senha_hash], function (err) {
-            if (err) return res.status(500).json({ error: "Erro no servidor" });
-            return res.json({ message: "Usuário registrado com sucesso!" });
-        });
+            // Insere o novo usuário
+            const insertSql = `INSERT INTO usuarios (nome, usuario, senha_hash) VALUES (?, ?, ?)`;
+            db.run(insertSql, [nome, usuario, senha_hash], function (err) {
+                if (err) {
+                    console.error("Erro ao inserir usuário:", err);
+                    return res.status(500).json({ error: "Erro ao registrar usuário" });
+                }
+                
+                // Verifica se o usuário foi realmente inserido
+                db.get("SELECT * FROM usuarios WHERE id = ?", [this.lastID], (verifyErr, user) => {
+                    if (verifyErr || !user) {
+                        console.error("Erro ao verificar inserção:", verifyErr);
+                        return res.status(500).json({ error: "Usuário registrado mas não foi possível verificar" });
+                    }
+                    
+                    console.log("Usuário registrado com sucesso:", { id: user.id, usuario: user.usuario });
+                    return res.json({ 
+                        message: "Usuário registrado com sucesso!",
+                        usuario: user.usuario 
+                    });
+                });
+            });
+        } catch (hashError) {
+            console.error("Erro ao criptografar senha:", hashError);
+            return res.status(500).json({ error: "Erro ao processar senha" });
+        }
     });
 });
 
+// 3. Melhorar a rota de login com mais logs e tratamento de erros
 app.post("/login", (req, res) => {
     const { usuario, senha } = req.body;
+    
+    if (!usuario || !senha) {
+        return res.status(400).json({ error: "Usuário e senha são obrigatórios" });
+    }
 
+    console.log("Tentativa de login para usuário:", usuario);
+    
     const sql = "SELECT * FROM usuarios WHERE LOWER(usuario) = ?";
     db.get(sql, [usuario.toLowerCase()], async (err, user) => {
-        if (err) return res.status(500).json({ error: "Erro no servidor" });
-        if (!user) return res.status(401).json({ error: "Usuário não encontrado!" });
+        if (err) {
+            console.error("Erro na consulta ao banco:", err);
+            return res.status(500).json({ error: "Erro no servidor" });
+        }
+        
+        if (!user) {
+            console.log("Usuário não encontrado:", usuario);
+            return res.status(401).json({ error: "Usuário não encontrado!" });
+        }
 
-        const senhaValida = await bcrypt.compare(senha, user.senha_hash);
-        if (!senhaValida) return res.status(401).json({ error: "Senha inválida!" });
+        try {
+            console.log("Usuário encontrado, verificando senha...");
+            const senhaValida = await bcrypt.compare(senha, user.senha_hash);
+            
+            if (!senhaValida) {
+                console.log("Senha inválida para usuário:", usuario);
+                return res.status(401).json({ error: "Senha inválida!" });
+            }
 
-        // Gera o token JWT
-        const token = jwt.sign({ id: user.id, usuario: user.usuario }, secretKey, { expiresIn: "2h" });
+            // Gera o token JWT
+            const token = jwt.sign(
+                { id: user.id, usuario: user.usuario }, 
+                secretKey, 
+                { expiresIn: "2h" }
+            );
 
-        return res.json({ message: "Login bem-sucedido!", token });
+            console.log("Login bem-sucedido para usuário:", usuario);
+            return res.json({ 
+                message: "Login bem-sucedido!", 
+                token,
+                usuario: user.usuario
+            });
+        } catch (authError) {
+            console.error("Erro no processo de autenticação:", authError);
+            return res.status(500).json({ error: "Erro durante autenticação" });
+        }
+    });
+});
+
+// 4. Teste de conexão com o banco para verificar se as tabelas existem
+app.get("/debug/check-tables", (req, res) => {
+    db.all("SELECT name FROM sqlite_master WHERE type='table'", (err, tables) => {
+        if (err) {
+            return res.status(500).json({ error: "Erro ao verificar tabelas" });
+        }
+        
+        // Verificar tabela de usuários
+        db.all("PRAGMA table_info(usuarios)", (err, columns) => {
+            if (err) {
+                return res.status(500).json({ 
+                    tables,
+                    error: "Erro ao verificar estrutura da tabela de usuários" 
+                });
+            }
+            
+            return res.json({
+                tables: tables.map(t => t.name),
+                usuarios_columns: columns,
+                message: "Verificação de banco concluída"
+            });
+        });
     });
 });
 
