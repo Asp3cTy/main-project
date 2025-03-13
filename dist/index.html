@@ -2,34 +2,28 @@
 <html lang="pt-BR" data-theme="dracula">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCert!</title>
-  <!-- CDN do DaisyUI e Tailwind CSS -->
-
-  <link href="./styles.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <!-- CDN do DaisyUI e Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.0.0/dist/full.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet">
   </head>
-
   <body class="bg-neutral text-neutral-content min-h-screen">
-        <!-- Navbar -->
-        <nav class="navbar bg-base-100 shadow-lg flex justify-between items-center">
-          <div class="flex-1 flex justify-center">
-              <span id="userGreeting" class="text-xl font-bold hidden"></span>
-          </div>
-          <div class="flex items-center">
-              <a href="login.html"><button  onclick="logout()" class="btn btn-error">Sair</button></a>
-          </div>
-      </nav>
-      
-
-
-    
-
+    <!-- Navbar -->
+    <nav class="navbar bg-base-100 shadow-lg flex justify-between items-center">
+      <div class="flex-1 flex justify-center">
+        <span id="userGreeting" class="text-xl font-bold hidden"></span>
+      </div>
+      <div class="flex items-center">
+        <a href="login.html"><button onclick="logout()" class="btn btn-error">Sair</button></a>
+      </div>
+    </nav>
     <div class="container mx-auto p-4">
       <!-- Layout principal: duas colunas -->
-      <div class="grid grid-cols-[45%_55%] gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-[45%_55%] gap-4">
         <!-- Coluna Esquerda: Formulário de Novo/Edição de Pedido -->
-        <div class="card bg-base-100 shadow-xl p-4 height: 80rem">
+        <div class="card bg-base-100 shadow-xl p-4">
           <div class="card-body flex items-center justify-center h-full">
             <img src="mycert.gif" alt="" srcset="">
             <form id="form-pedido" class="space-y-4">
@@ -46,7 +40,6 @@
                   required
                 />
               </div>
-
               <!-- Data (preenchida automaticamente) -->
               <div class="form-control">
                 <label class="label text-base">DATA</label>
@@ -59,7 +52,6 @@
                   required
                 />
               </div>
-
               <!-- Matrícula (5 caracteres, somente números) -->
               <div class="form-control">
                 <label class="label text-base">MATRÍCULA</label>
@@ -73,7 +65,6 @@
                   required
                 />
               </div>
-
               <!-- Resultado da Ônus -->
               <div class="form-control">
                 <label class="label text-base">RESULTADO DA ÔNUS</label>
@@ -87,7 +78,6 @@
                   <option value="INDETERMINADA">INDETERMINADA</option>
                 </select>
               </div>
-
               <!-- Número de Folhas (2 caracteres, somente números) -->
               <div class="form-control">
                 <label class="label text-base">N.º DE FOLHAS</label>
@@ -100,7 +90,6 @@
                   placeholder="Ex: 12"
                 />
               </div>
-
               <!-- Número de Imagens (2 caracteres, somente números) -->
               <div class="form-control">
                 <label class="label text-base">N.º DE IMAGENS</label>
@@ -113,7 +102,6 @@
                   placeholder="Ex: 05"
                 />
               </div>
-
               <!-- Tipo da Certidão -->
               <div class="form-control">
                 <label class="label text-base">TIPO DA CERTIDÃO</label>
@@ -127,7 +115,6 @@
                   <option value="E-CARTÓRIO">E-CARTÓRIO</option>
                 </select>
               </div>
-
               <!-- Campo dinâmico para CÓDIGO ARIRJ ou E-CARTÓRIO -->
               <div class="form-control hidden" id="divCodigoCertidao">
                 <label class="label text-base" id="labelCodigoCertidao" ></label>
@@ -139,7 +126,6 @@
                   placeholder=""
                 />
               </div>
-
               <!-- Botões em grid 2 colunas -->
               <div class="grid grid-cols-2 gap-2">
                 <!-- Botão Adicionar Participante -->
@@ -150,7 +136,6 @@
                 >
                   Adicionar Participante
                 </button>
-
                 <!-- Botão Adicionar Protocolo -->
                 <button
                   type="button"
@@ -159,7 +144,6 @@
                 >
                   Adicionar Protocolo
                 </button>
-
                 <!-- Botão Visualizar Participantes e Protocolos -->
                 <button
                   type="button"
@@ -168,7 +152,6 @@
                 >
                   Visualizar Participantes e Protocolos
                 </button>
-
                 <!-- Botão principal (Cadastrar / Confirmar Alteração) -->
                 <button
                   type="button"
@@ -182,18 +165,14 @@
             </form>
           </div>
         </div>
-
         <!-- Coluna Direita: Lista de Pedidos -->
         <div class="card bg-base-100 shadow-xl p-4 max-h-[350px] overflow-y-auto">
-
           <div class="card-body">
             <h2 class="text-3xl font-light mb-6 text-center">Meus Pedidos</h2>
-
             <!-- Container onde são inseridos os cards -->
             <div id="lista-pedidos" class="space-y-4">
               <!-- Preenchido dinamicamente -->
             </div>
-
             <!-- Paginação centralizada -->
             <div class="justify-center mt-4 gap-2 join grid grid-cols-2">
               <button class="join-item btn btn-outline" id="btnAnterior">« Anterior</button>
@@ -203,18 +182,16 @@
         </div>
       </div>
     </div>
-
     <!-- Modal Adicionar/Editar Participante -->
     <input type="checkbox" id="modal-participante" class="modal-toggle" />
     <div class="modal z-50" id="modal-participante-container">
       <div class="modal-box relative">
         <button
-          class="btnFecharModal  btn btn-sm btn-circle absolute right-2 top-2"
+          class="btnFecharModal btn btn-sm btn-circle absolute right-2 top-2"
           onclick="fecharModal('modal-participante')"
         >
           ✕
         </button>
-
         <h3 class="text-lg font-bold mb-4" id="tituloModalParticipante">
           Adicionar Participante
         </h3>
@@ -227,18 +204,16 @@
               class="select select-bordered"
               id="part-qualificacao"
             >
-            <option value="PROPRIETÁRIO" selected>PROPRIETÁRIO</option>
-            <option value="CONJUGE">CÔNJUGE</option>
-            <option value="CREDOR">CREDOR</option>
-            <option value="DEVEDOR">DEVEDOR</option>
-            <option value="NU-PROPRIETARIO">NU-PROPRIETÁRIO</option>
-            <option value="USUFRUTUARIO">USUFRUTUÁRIO</option>
-            <option value="PROMITENTECOMPRADOR">PROMITENTE COMPRADOR</option>
-            <option value="PROMITENTEVENDEDOR">PROMITENTE VENDEDOR</option>
-
+              <option value="PROPRIETÁRIO" selected>PROPRIETÁRIO</option>
+              <option value="CONJUGE">CÔNJUGE</option>
+              <option value="CREDOR">CREDOR</option>
+              <option value="DEVEDOR">DEVEDOR</option>
+              <option value="NU-PROPRIETARIO">NU-PROPRIETÁRIO</option>
+              <option value="USUFRUTUARIO">USUFRUTUÁRIO</option>
+              <option value="PROMITENTECOMPRADOR">PROMITENTE COMPRADOR</option>
+              <option value="PROMITENTEVENDEDOR">PROMITENTE VENDEDOR</option>
             </select>
           </div>
-
           <!-- Nome (sempre maiúsculo) -->
           <div class="form-control">
             <label class="label text-base">Nome</label>
@@ -250,7 +225,6 @@
               placeholder="Informe o nome"
             />
           </div>
-
           <!-- Select CPF/CNPJ -->
           <div class="form-control">
             <label class="label text-base">Documento</label>
@@ -264,7 +238,6 @@
               <option value="CNPJ">CNPJ</option>
             </select>
           </div>
-
           <!-- Input CPF (XXX.XXX.XXX-XX) -->
           <div class="form-control" id="divCPF">
             <label class="label text-base">CPF</label>
@@ -276,7 +249,6 @@
               placeholder="123.456.789-10"
             />
           </div>
-
           <!-- Input CNPJ (XX.XXX.XXX/XXXX-XX) -->
           <div class="form-control hidden" id="divCNPJ">
             <label class="label text-base">CNPJ</label>
@@ -288,7 +260,6 @@
               placeholder="12.345.678/0001-90"
             />
           </div>
-
           <!-- Gênero (apenas para CPF) -->
           <div class="form-control" id="divGenero">
             <label class="label text-base">Gênero</label>
@@ -301,7 +272,6 @@
               <option value="FEMININO">FEMININO</option>
             </select>
           </div>
-
           <!-- Identidade (apenas para CPF) -->
           <div class="form-control" id="divIdentidade">
             <label class="label text-base">Identidade</label>
@@ -313,7 +283,6 @@
               placeholder="Ex: 11.111.111-1"
             />
           </div>
-
           <!-- Órgão Emissor (select) -->
           <div class="form-control" id="divOrgaoEmissorSelect">
             <label class="label text-base">Órgão Emissor</label>
@@ -328,7 +297,6 @@
               <option value="OUTRO">OUTRO</option>
             </select>
           </div>
-
           <!-- Órgão Emissor (input se OUTRO) -->
           <div class="form-control hidden" id="divOrgaoEmissorInput">
             <label class="label text-base">Informe o Órgão Emissor</label>
@@ -340,8 +308,6 @@
               placeholder="Ex: SSP/SP"
             />
           </div>
-
-
           <!-- Estado Civil (apenas para CPF) -->
           <div class="form-control" id="divEstadoCivil">
             <label class="label text-base">Estado Civil</label>
@@ -350,18 +316,16 @@
               id="part-estadoCivil"
               class="select select-bordered"
             >
-            <option value="SOLTEIRO">SOLTEIRO</option>
-            <option value="CASADO">CASADO</option>
-            <option value="VIUVO">VIÚVO</option>
-            <option value="SEPARADO JUDICIALMENTE">SEPARADO JUDICIALMENTE</option>
-            <option value="DIVORCIADO">DIVORCIADO</option>
-            <option value="SEPARADO CONSENSUALMENTE">SEPARADO CONSENSUALMENTE</option>
-            <option value="DESQUITADO">DESQUITADO</option>
-            <option value="NENHUMA">NENHUMA</option>
-
+              <option value="SOLTEIRO">SOLTEIRO</option>
+              <option value="CASADO">CASADO</option>
+              <option value="VIUVO">VIÚVO</option>
+              <option value="SEPARADO JUDICIALMENTE">SEPARADO JUDICIALMENTE</option>
+              <option value="DIVORCIADO">DIVORCIADO</option>
+              <option value="SEPARADO CONSENSUALMENTE">SEPARADO CONSENSUALMENTE</option>
+              <option value="DESQUITADO">DESQUITADO</option>
+              <option value="NENHUMA">NENHUMA</option>
             </select>
           </div>
-
           <!-- Botões -->
           <div class="flex gap-2">
             <button
@@ -383,7 +347,6 @@
         </form>
       </div>
     </div>
-
     <!-- Modal Adicionar/Editar Protocolo -->
     <input type="checkbox" id="modal-protocolo" class="modal-toggle" />
     <div class="modal z-50" id="modal-protocolo-container">
@@ -427,7 +390,6 @@
         </form>
       </div>
     </div>
-
     <!-- Modal Resumo de Participantes e Protocolos -->
     <input type="checkbox" id="modal-resumo" class="modal-toggle" />
     <div class="modal z-50">
@@ -439,19 +401,14 @@
           ✕
         </button>
         <h3 class="text-lg font-bold mb-4">Resumo de Participantes e Protocolos</h3>
-
         <h4 class="text-md font-semibold mb-2">Participantes</h4>
         <ul id="lista-participantes" class="space-y-1"></ul>
-
         <h4 class="text-md font-semibold mt-4 mb-2">Protocolos</h4>
         <ul id="lista-protocolos" class="space-y-1"></ul>
       </div>
     </div>
     <div class="toast toast-center" id="toast-container"></div>
-
-
     <!-- Script principal -->
     <script src="script.js"></script>
-    
   </body>
 </html>
