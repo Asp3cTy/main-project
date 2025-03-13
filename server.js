@@ -11,8 +11,88 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
         console.error('Erro ao conectar ao banco de dados SQLite3:', err.message);
     } else {
         console.log('Conectado ao banco de dados SQLite3.');
+        
+        // Inicializar as tabelas
+        initDB();
     }
 });
+
+// Função para inicializar o banco de dados
+function initDB() {
+    // SQL para criar tabelas se não existirem
+    const createTableUsuarios = `
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            usuario TEXT NOT NULL UNIQUE,
+            senha_hash TEXT NOT NULL
+        )
+    `;
+    
+    const createTablePedidos = `
+        CREATE TABLE IF NOT EXISTS pedidos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            numero_pedido TEXT NOT NULL,
+            data_pedido TEXT NOT NULL,
+            matricula TEXT NOT NULL,
+            resultado_onus TEXT,
+            num_folhas INTEGER,
+            num_imagens INTEGER,
+            tipo_certidao TEXT,
+            codigo_certidao TEXT
+        )
+    `;
+    
+    const createTableParticipantes = `
+        CREATE TABLE IF NOT EXISTS participantes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            pedido_id INTEGER NOT NULL,
+            qualificacao TEXT,
+            nome TEXT NOT NULL,
+            tipo_documento TEXT,
+            cpf TEXT,
+            cnpj TEXT,
+            genero TEXT,
+            identidade TEXT,
+            orgao_emissor_select TEXT,
+            orgao_emissor_outro TEXT,
+            estado_civil TEXT,
+            FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE
+        )
+    `;
+    
+    const createTableProtocolos = `
+        CREATE TABLE IF NOT EXISTS protocolos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            pedido_id INTEGER NOT NULL,
+            observacao TEXT,
+            FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE
+        )
+    `;
+    
+    // Executar as queries para criar as tabelas
+    db.serialize(() => {
+        db.run(createTableUsuarios, (err) => {
+            if (err) console.error('Erro ao criar tabela usuarios:', err.message);
+            else console.log('Tabela usuarios verificada/criada com sucesso');
+        });
+        
+        db.run(createTablePedidos, (err) => {
+            if (err) console.error('Erro ao criar tabela pedidos:', err.message);
+            else console.log('Tabela pedidos verificada/criada com sucesso');
+        });
+        
+        db.run(createTableParticipantes, (err) => {
+            if (err) console.error('Erro ao criar tabela participantes:', err.message);
+            else console.log('Tabela participantes verificada/criada com sucesso');
+        });
+        
+        db.run(createTableProtocolos, (err) => {
+            if (err) console.error('Erro ao criar tabela protocolos:', err.message);
+            else console.log('Tabela protocolos verificada/criada com sucesso');
+        });
+    });
+}
 
 const app = express();
 
