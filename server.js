@@ -544,10 +544,10 @@ app.post("/protocolos", (req, res) => {
     `;
     db.run(sql, [pedido_id, observacao], (err) => {
         if (err) {
-            console.error("Erro ao inserir protocolo:", err);
-            return res.status(500).json({ error: "Erro no servidor" });
-        }
-        return res.json({ message: "Protocolo inserido com sucesso" });
+        console.error("Erro ao inserir protocolo:", err);
+        return res.status(500).json({ error: "Erro no servidor" });
+    }
+    return res.json({ message: "Protocolo inserido com sucesso" });
     });
 });
 
@@ -691,16 +691,17 @@ app.put("/pedidos/:id", (req, res) => {
                             VALUES (?, ?)
                         `;
                         protocolos.forEach(obs => {
-                            db.run(sqlProt, [id, obs],                         (err3) => {
-                            if (err3) console.error("Erro ao inserir protocolos (PUT):", err3);
+                            db.run(sqlProt, [id, obs], (err3) => {
+                                if (err3) console.error("Erro ao inserir protocolos (PUT):", err3);
+                            });
                         });
-                    });
-                }
+                    }
 
-                return res.json({ message: "Pedido atualizado com sucesso!" });
+                    return res.json({ message: "Pedido atualizado com sucesso!" });
+                });
             });
-        });
-    });
+        }
+    );
 });
 
 // ------------------------------
@@ -709,4 +710,16 @@ app.put("/pedidos/:id", (req, res) => {
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+// ------------------------------
+// Debug - Verificar usuários registrados
+// ------------------------------
+app.get("/debug/check-users", (req, res) => {
+    db.all("SELECT * FROM usuarios", (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: "Erro ao verificar usuários" });
+        }
+        return res.json(rows);
+    });
 });
