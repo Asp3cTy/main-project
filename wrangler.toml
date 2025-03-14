@@ -1,0 +1,8 @@
+name = "main-project"
+main = "src/index.js"
+compatibility_date = "2023-11-01"
+
+[[d1_databases]]
+binding = "DB" # Vincula o banco de dados D1 ao seu Worker
+database_name = "main-project-db"
+database_id = "YOUR_DATABASE_ID" # Será preenchido quando você criar o banco de dados
