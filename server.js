@@ -119,45 +119,40 @@ db.run("PRAGMA foreign_keys = ON;", (err) => {
 });
 
 // 2. Modificar a rota de registro para verificar se o usuário foi inserido
+// Registro
 app.post("/register", (req, res) => {
     const { nome, usuario, senha } = req.body;
 
-    // Verificação e validação de campos
     if (!nome || !usuario || !senha) {
         return res.status(400).json({ error: "Todos os campos são obrigatórios" });
     }
 
-    // Verifica se o usuário já existe
     const sql = "SELECT * FROM usuarios WHERE LOWER(usuario) = ?";
     db.get(sql, [usuario.toLowerCase()], async (err, row) => {
         if (err) {
             console.error("Erro ao verificar usuário:", err);
             return res.status(500).json({ error: "Erro no servidor" });
         }
-        
+
         if (row) {
             return res.status(400).json({ error: "Usuário já existe" });
         }
 
         try {
-            // Criptografa a senha
             const senha_hash = await bcrypt.hash(senha, 10);
-
-            // Insere o novo usuário
             const insertSql = `INSERT INTO usuarios (nome, usuario, senha_hash) VALUES (?, ?, ?)`;
             db.run(insertSql, [nome, usuario, senha_hash], function (err) {
                 if (err) {
                     console.error("Erro ao inserir usuário:", err);
                     return res.status(500).json({ error: "Erro ao registrar usuário" });
                 }
-                
-                // Verifica se o usuário foi realmente inserido
+
                 db.get("SELECT * FROM usuarios WHERE id = ?", [this.lastID], (verifyErr, user) => {
                     if (verifyErr || !user) {
                         console.error("Erro ao verificar inserção:", verifyErr);
                         return res.status(500).json({ error: "Usuário registrado mas não foi possível verificar" });
                     }
-                    
+
                     console.log("Usuário registrado com sucesso:", { id: user.id, usuario: user.usuario });
                     return res.json({ 
                         message: "Usuário registrado com sucesso!",
@@ -172,23 +167,23 @@ app.post("/register", (req, res) => {
     });
 });
 
-// 3. Melhorar a rota de login com mais logs e tratamento de erros
+// Login
 app.post("/login", (req, res) => {
     const { usuario, senha } = req.body;
-    
+
     if (!usuario || !senha) {
         return res.status(400).json({ error: "Usuário e senha são obrigatórios" });
     }
 
     console.log("Tentativa de login para usuário:", usuario);
-    
+
     const sql = "SELECT * FROM usuarios WHERE LOWER(usuario) = ?";
     db.get(sql, [usuario.toLowerCase()], async (err, user) => {
         if (err) {
             console.error("Erro na consulta ao banco:", err);
             return res.status(500).json({ error: "Erro no servidor" });
         }
-        
+
         if (!user) {
             console.log("Usuário não encontrado:", usuario);
             return res.status(401).json({ error: "Usuário não encontrado!" });
@@ -197,16 +192,15 @@ app.post("/login", (req, res) => {
         try {
             console.log("Usuário encontrado, verificando senha...");
             const senhaValida = await bcrypt.compare(senha, user.senha_hash);
-            
+
             if (!senhaValida) {
                 console.log("Senha inválida para usuário:", usuario);
                 return res.status(401).json({ error: "Senha inválida!" });
             }
 
-            // Gera o token JWT
             const token = jwt.sign(
-                { id: user.id, usuario: user.usuario }, 
-                secretKey, 
+                { id: user.id, usuario: user.usuario },
+                secretKey,
                 { expiresIn: "2h" }
             );
 
