@@ -1,0 +1,1146 @@
+{
+  "version": "6",
+  "id": "xy9rzk8rf0007lq16fcwkbpw",
+  "name": "Loja Virtual de Chinelos",
+  "events": [
+    {
+      "id": "r1q5hjbwbqhs0ho6ide65k7e",
+      "outgoingEdgeId": "wqkgmd5dyh2k0radjuwjdb97",
+      "graphCoordinates": {
+        "x": -905.89,
+        "y": 62.1
+      },
+      "type": "start"
+    }
+  ],
+  "groups": [
+    {
+      "id": "bqnfvv52fsgvke6spsz11e1v",
+      "title": "SAUDAÇÃO E MENU PRINCIPAL",
+      "graphCoordinates": {
+        "x": -606.86,
+        "y": -70.66
+      },
+      "blocks": [
+        {
+          "id": "nk1suzhe6821mth7vnn8x939",
+          "type": "Set variable",
+          "options": {
+            "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+            "type": "Custom",
+            "expressionToEvaluate": "{{remoteJid}}",
+            "isCode": true
+          }
+        },
+        {
+          "id": "gjw82s3934vrisp8lsp8wrj8",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n    \"number\": \"{{remoteJid}}\",\n    \"text\": \"Olá! Seja bem-vindo à *Chinelos Express* - sua loja virtual de chinelos!\"\n}"
+            }
+          }
+        },
+        {
+          "id": "fymk2f8b0orjx9oapjs27dxg",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vai31zx856f8r38st6ysgw0nb"
+          }
+        },
+        {
+          "id": "u632b86nl0b88k4y7oymilky",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"Como posso ajudar você hoje? Selecione uma opção abaixo:\",\n  \"buttonText\": \"Ver Opções\",\n  \"footerText\": \"\",\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"CATÁLOGO\"\n          \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"PROMOÇÕES\"\n         \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"ATENDIMENTO\"\n          \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "apumdwo36jzeaszb7iw63163",
+          "outgoingEdgeId": "jdugk3oa69sgsgstdn4tftrb",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vyiyy4xdb2idmq03echu3jz1o"
+          }
+        }
+      ]
+    },
+    {
+      "id": "akj043n0770whwpya0g342mc",
+      "title": "Setor de Catálogo",
+      "graphCoordinates": {
+        "x": 113.59,
+        "y": -74.37
+      },
+      "blocks": [
+        {
+          "id": "vnb7cixcz1mz68n2zl4f781k",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"Explore nossas opções de chinelos!\",\n  \"buttonText\": \"Escolha uma Opção\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Anterior\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Ver Chinelos Masculinos\"\n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Ver Chinelos Femininos\"\n        \n        },\n        {\n          \"rowId\": \"4\",\n          \"title\": \"Ver Chinelos Infantis\"\n        \n        },\n        {\n          \"rowId\": \"5\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"6\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "kdb400lrf6drlv6jjadtiuya",
+          "outgoingEdgeId": "o0u462ntb7pq05iztlu65xlu",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ro6bj6m8oc11wflu4fjqm9pg",
+      "title": "choicesCatalogo",
+      "graphCoordinates": {
+        "x": 490.11,
+        "y": -268.19
+      },
+      "blocks": [
+        {
+          "id": "tjembh54eisjuyhtcwzb615x",
+          "type": "Condition",
+          "items": [
+            {
+              "id": "evmwdnf2o29bvbf0qr89gx2h",
+              "outgoingEdgeId": "f944ez8f7lf95lnqmkjkrwiv",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "z14fzl94g4mq8pgjtedp0bp7",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Retornar ao Menu Anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "acp26czbezdrmy8doc6znaxl",
+              "outgoingEdgeId": "i5841rdrd7xkapd2hpe9d3y4",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "xsyaukyfkrwgtp5u2xx83d5z",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Ver Chinelos Masculinos"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zcy26czbezdrmy8doc6zndfx",
+              "outgoingEdgeId": "j5841rdrd7xkapd2hpe9d3z5",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "xsyzukyfkrwgtp5u2xx83d9z",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Ver Chinelos Femininos"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "acy26czbezdrmy8doc6zncxl",
+              "outgoingEdgeId": "k5841rdrd7xkapd2hpe9d3y6",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "xsyzukyfkrwgtp5u2xx83e5z",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Ver Chinelos Infantis"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "pblc4sq94v1iycfr1a05wr9i",
+              "outgoingEdgeId": "pxodwm4ngzo74k7pcg5qu2wx",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "t0i8gigi43fhhritjlj449uh",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Falar com Atendente"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "jp2rsz1r9rxhu56rj3q46368",
+              "outgoingEdgeId": "wayisgjfeecwsrpcgs1f5shy",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "y27i6bwdsgu9orju262usiru",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Encerrar Atendimento"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gnethhs478ruamycl9utqgi8",
+      "title": "SWITCH MENU",
+      "graphCoordinates": {
+        "x": -270.64,
+        "y": -202.43
+      },
+      "blocks": [
+        {
+          "id": "kqv53k7omiq6ibakmmq70l4d",
+          "outgoingEdgeId": "c89meik0b3guql53jedpl21z",
+          "type": "Condition",
+          "items": [
+            {
+              "id": "bqp64s8aef8qjg19kc6xg7x5",
+              "outgoingEdgeId": "xult2802ko3jdx45pzi7fouj",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "lzcs1ce2dkbr1i6i5owj7bv2",
+                    "variableId": "vyiyy4xdb2idmq03echu3jz1o",
+                    "comparisonOperator": "Equal to",
+                    "value": "CATÁLOGO"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "cl8rcrxyeuvzfamxvl0ud774",
+              "outgoingEdgeId": "rayyb3ora61ogpwq2yxhbe68",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "gpgtnmh82v7qcpdgcd581yyk",
+                    "variableId": "vyiyy4xdb2idmq03echu3jz1o",
+                    "comparisonOperator": "Equal to",
+                    "value": "PROMOÇÕES"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sn41cvrfwpkyl5ccmoskl9ur",
+              "outgoingEdgeId": "z309q1qkav30ao0lf86hn5ag",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "fxdznuzfz82rp2rtvtkfur8g",
+                    "variableId": "vyiyy4xdb2idmq03echu3jz1o",
+                    "comparisonOperator": "Equal to",
+                    "value": "ATENDIMENTO"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ha5bltx3ygb58xqqohxisxtr",
+      "title": "Atendimento Cliente",
+      "graphCoordinates": {
+        "x": 1065.88,
+        "y": -26.95
+      },
+      "blocks": [
+        {
+          "id": "g3j6g43t6zb0ieopw8h3teai",
+          "type": "Typebot link",
+          "options": {
+            "typebotId": "cm9ozs42f000412qsx9p457jv"
+          }
+        },
+        {
+          "id": "kt7upgk4wwtsea5zrcgwfsnr",
+          "type": "text",
+          "content": {
+            "richText": [
+              {
+                "type": "p",
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Você está sendo transferido para um atendente. Por favor, aguarde um momento."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gpptpa33vce1ghxbwrrux4pv",
+      "title": "Encerrar Atendimento",
+      "graphCoordinates": {
+        "x": 1061.71,
+        "y": 282.79
+      },
+      "blocks": [
+        {
+          "id": "uj5d44893ejr85p55g0bgnfb",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/typebot/changeStatus/oficial",
+              "body": "{\n    \"remoteJid\": \"{{remoteJid}}\",\n    \"status\": \"delete\"\n} "
+            }
+          }
+        },
+        {
+          "id": "fljhsy6oa5bkt644hcjqj246",
+          "type": "text",
+          "content": {
+            "richText": [
+              {
+                "type": "p",
+                "children": [
+                  {
+                    "text": "Obrigado por visitar a Chinelos Express. Volte sempre! 👋"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ldis1r62q7gso3d2vlnzs3os",
+      "title": "chinelosMasculinos",
+      "graphCoordinates": {
+        "x": 1094.7,
+        "y": -354.64
+      },
+      "blocks": [
+        {
+          "id": "kmg4aitgtkjp99uzf9du962b",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"👟 *Chinelos Masculinos* 👟\\n\\nNossa coleção masculina oferece conforto e estilo para todas as ocasiões:\\n\\n*1. Chinelo Urban Flip* - R$ 59,90\\nDesign moderno com tiras largas e solado anatômico\\n\\n*2. Chinelo Sport Pro* - R$ 69,90\\nIdeal para atividades esportivas, com aderência extra\\n\\n*3. Chinelo Casual Day* - R$ 49,90\\nOpção leve e confortável para o dia a dia\\n\\n*4. Chinelo Beach Premium* - R$ 79,90\\nResistente à água, perfeito para praia e piscina\\n\\nTodos disponíveis nos tamanhos 38 ao 44 e em diversas cores.\\n\\nPara fazer um pedido ou obter mais informações, selecione uma opção abaixo:\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "dnb3pd27qndjkrzvxo4fhkyw",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"O que você deseja fazer?\",\n  \"buttonText\": \"Escolha uma Opção\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Anterior\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Fazer um Pedido\"\n        \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"4\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "qv2n0jzhhksfeti5pnr1m0w7",
+          "outgoingEdgeId": "skj3drxxtk3d0ro3sa17efi2",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p1hpa67k6s9awt5kxwrf6tk8",
+      "title": "chinelosMasculinos - IFs Choices",
+      "graphCoordinates": {
+        "x": 1511.06,
+        "y": -542.16
+      },
+      "blocks": [
+        {
+          "id": "wdp100nbp99isz09hoxlqshu",
+          "type": "Condition",
+          "items": [
+            {
+              "id": "hjby4ik53qc5bs5k3i4kho7y",
+              "outgoingEdgeId": "brpmjwr9t8zcab04xfs7kko1",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "z14fzl94g4mq8pgjtedp0bp7",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Retornar ao Menu Anterior"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sr3oyzgjfg6d5pdyp6nn2v0m",
+              "outgoingEdgeId": "a0vssfv4cmwpfkbyt4espacn",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "t0i8gigi43fhhritjlj449uh",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Falar com Atendente"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "nr3oyzgjfg6d5pdyp6nn2v1r",
+              "outgoingEdgeId": "a1vssfv4cmwpfkbyt4espack",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "t0j8gigi43fhhritjlj449ui",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Fazer um Pedido"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "g3ulgmf3qgfc3j56pmf8thn9",
+              "outgoingEdgeId": "uhz68gub6k6npljh5m3ptbow",
+              "content": {
+                "comparisons": [
+                  {
+                    "id": "y27i6bwdsgu9orju262usiru",
+                    "variableId": "vtmqf0ml6g0kgig0vm20fprsp",
+                    "comparisonOperator": "Equal to",
+                    "value": "Encerrar Atendimento"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ncv8y2it6ztnbisj855849py",
+      "title": "Atendimento Cliente",
+      "graphCoordinates": {
+        "x": 2009.27,
+        "y": -551.85
+      },
+      "blocks": [
+        {
+          "id": "wn563yo6s9jq3oso1vkpwi96",
+          "type": "Typebot link",
+          "options": {
+            "typebotId": "cm9ozs42f000412qsx9p457jv"
+          }
+        },
+        {
+          "id": "kyyrwuryzi76wp04u0ccj2q8",
+          "type": "text",
+          "content": {
+            "richText": [
+              {
+                "type": "p",
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Você está sendo transferido para um atendente. Por favor, aguarde um momento."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "iwq5da0t92yjhb57ysvrbrax",
+      "title": "Encerrar Atendimento",
+      "graphCoordinates": {
+        "x": 2008.64,
+        "y": -240.73
+      },
+      "blocks": [
+        {
+          "id": "escucr180ja08qm0qp0btc3h",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/typebot/changeStatus/oficial",
+              "body": "{\n    \"remoteJid\": \"{{remoteJid}}\",\n    \"status\": \"delete\"\n} "
+            }
+          }
+        },
+        {
+          "id": "ldfm93yrsiw3iw1hphyb6wmb",
+          "type": "text",
+          "content": {
+            "richText": [
+              {
+                "type": "p",
+                "children": [
+                  {
+                    "text": "Obrigado por visitar a Chinelos Express. Volte sempre! 👋"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hdis1r62q7gso3d2vlnzs4pt",
+      "title": "chinelosFemininos",
+      "graphCoordinates": {
+        "x": 1094.7,
+        "y": -454.64
+      },
+      "blocks": [
+        {
+          "id": "nmg4aitgtkjp99uzf9du962b",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"👠 *Chinelos Femininos* 👠\\n\\nNossa coleção feminina combina estilo e conforto:\\n\\n*1. Chinelo Glam Shine* - R$ 69,90\\nCom aplicações decorativas e solado macio\\n\\n*2. Chinelo Casual Chic* - R$ 59,90\\nDesign elegante para o dia a dia\\n\\n*3. Chinelo Summer Style* - R$ 49,90\\nLeve e colorido, perfeito para o verão\\n\\n*4. Chinelo Platform Plus* - R$ 79,90\\nCom plataforma elevada para mais estilo\\n\\nTodos disponíveis nos tamanhos 34 ao 40 e em diversas cores.\\n\\nPara fazer um pedido ou obter mais informações, selecione uma opção abaixo:\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "enb3pd27qndjkrzvxo4fhkyx",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"O que você deseja fazer?\",\n  \"buttonText\": \"Escolha uma Opção\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Anterior\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Fazer um Pedido\"\n        \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"4\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "rv2n0jzhhksfeti5pnr1m0w8",
+          "outgoingEdgeId": "tkj3drxxtk3d0ro3sa17efi3",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "idis1r62q7gso3d2vlnzs5qu",
+      "title": "chinelosInfantis",
+      "graphCoordinates": {
+        "x": 1094.7,
+        "y": -554.64
+      },
+      "blocks": [
+        {
+          "id": "omg4aitgtkjp99uzf9du962c",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"👶 *Chinelos Infantis* 👶\\n\\nNossa linha infantil é divertida e confortável:\\n\\n*1. Chinelo Kids Fun* - R$ 39,90\\nCom personagens e solado anatômico\\n\\n*2. Chinelo Baby Step* - R$ 34,90\\nIdeal para os primeiros passos\\n\\n*3. Chinelo Teen Cool* - R$ 44,90\\nOpção moderna para adolescentes\\n\\n*4. Chinelo Play Time* - R$ 29,90\\nLeve e colorido para todas as brincadeiras\\n\\nDisponíveis em tamanhos do 15 ao 33 e em diversas cores e estampas.\\n\\nPara fazer um pedido ou obter mais informações, selecione uma opção abaixo:\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "fnb3pd27qndjkrzvxo4fhkyz",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"O que você deseja fazer?\",\n  \"buttonText\": \"Escolha uma Opção\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Anterior\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Fazer um Pedido\"\n        \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"4\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "sv2n0jzhhksfeti5pnr1m0w9",
+          "outgoingEdgeId": "ukj3drxxtk3d0ro3sa17efi4",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "l4j06zz6e51xvkgqt5zj9ucy",
+      "title": "Setor de Promoções",
+      "graphCoordinates": {
+        "x": 113.59,
+        "y": 74.37
+      },
+      "blocks": [
+        {
+          "id": "b62g2v27pjg6a49zqgc4v33s",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"🔥 *PROMOÇÕES ESPECIAIS* 🔥\\n\\nAproveite nossas ofertas por tempo limitado:\\n\\n*1. Combo Família* - R$ 149,90\\nEconomize comprando 4 pares de chinelos (qualquer modelo)\\n\\n*2. Leve 2, Pague 1* - Na compra de qualquer chinelo da linha Premium, ganhe outro de igual valor\\n\\n*3. Frete Grátis* - Para compras acima de R$ 100,00\\n\\n*4. Desconto de 20%* - Em todos os modelos da coleção passada\\n\\nPromoções válidas enquanto durarem os estoques.\\n\\nPara aproveitar ou saber mais detalhes, escolha uma opção:\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "l58v3avamttxnlnkd7iomwfh",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"O que você deseja fazer?\",\n  \"buttonText\": \"Escolha uma Opção\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Principal\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Aproveitar Promoção\"\n        \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"4\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "vxvhlnnf38g3pnr4tnhyhvnd",
+          "outgoingEdgeId": "e8xb4gcpqwi99e05cwq2qrw0",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tynlc4nnsgdqp8q0u9zpgbkc",
+      "title": "Fazer Pedido",
+      "graphCoordinates": {
+        "x": 2009.64,
+        "y": -740.73
+      },
+      "blocks": [
+        {
+          "id": "mnbxd39qtjsz9yrwbtnbhzkg",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"🛒 *Fazer um Pedido* 🛒\\n\\nPara realizar seu pedido, precisamos de algumas informações:\\n\\n1. Qual modelo de chinelo você gostaria de comprar?\\n2. Qual o tamanho desejado?\\n3. Qual cor você prefere?\\n4. Quantidade de pares?\\n5. Seu endereço completo para entrega\\n\\nVocê será transferido para um atendente que irá finalizar seu pedido. Obrigado pela preferência!\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "xcm0pny5a9tz2jy15zrnhzuy",
+          "type": "Typebot link",
+          "options": {
+            "typebotId": "cm9ozs42f000412qsx9p457jv"
+          }
+        }
+      ]
+    },
+    {
+      "id": "u4j06zz6e51xvkgqt5zj9udz",
+      "title": "Setor de Atendimento",
+      "graphCoordinates": {
+        "x": 113.59,
+        "y": 224.37
+      },
+      "blocks": [
+        {
+          "id": "c62g2v27pjg6a49zqgc4v34t",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendText/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"text\": \"📞 *Central de Atendimento* 📞\\n\\nEstamos aqui para ajudar! Como podemos assistir você hoje?\\n\\n• Dúvidas sobre produtos\\n• Informações sobre entregas\\n• Trocas e devoluções\\n• Reclamações\\n• Sugestões\\n• Outros assuntos\\n\\nSelecione a opção desejada:\"\n}\n"
+            }
+          }
+        },
+        {
+          "id": "m58v3avamttxnlnkd7iomwgi",
+          "type": "Webhook",
+          "options": {
+            "variablesForTest": [
+              {
+                "id": "lvi6uqaxbfeiww214pwlug0p",
+                "variableId": "vgyzqpdq4ae0w81ygb3537wud",
+                "value": "5522974023335@s.whatsapp.net"
+              }
+            ],
+            "isAdvancedConfig": true,
+            "isCustomBody": true,
+            "webhook": {
+              "headers": [
+                {
+                  "id": "rsr59brk0lcuxjy6dlit948a",
+                  "key": "apikey",
+                  "value": "DAD8E9D594DE-485D-A785-B7D428DE3D3A"
+                }
+              ],
+              "url": "https://evolution.marvelflix.fun/message/sendList/oficial",
+              "body": "{\n  \"number\": \"{{remoteJid}}\",\n  \"options\": {\n    \"delay\": 1000,\n    \"presence\": \"presence\"\n  },\n  \"title\": \"\",\n  \"description\": \"Como podemos ajudar?\",\n  \"buttonText\": \"Ver Opções\",\n  \"footerText\": \"\",\n  \"sections\": [\n        {\n      \"title\": \"\",\n      \"rows\": [\n        {\n          \"rowId\": \"1\",\n          \"title\": \"Retornar ao Menu Principal\"\n         \n        },\n        {\n          \"rowId\": \"2\",\n          \"title\": \"Falar com Atendente\"\n        \n        },\n        {\n          \"rowId\": \"3\",\n          \"title\": \"Encerrar Atendimento\"\n        \n        }\n      ]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "id": "wxvhlnnf38g3pnr4tnhyhvne",
+          "outgoingEdgeId": "f8xb4gcpqwi99e05cwq2qrw1",
+          "type": "text input",
+          "options": {
+            "labels": {
+              "placeholder": "",
+              "button": ""
+            },
+            "variableId": "vtmqf0ml6g0kgig0vm20fprsp"
+          }
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "wqkgmd5dyh2k0radjuwjdb97",
+      "sourceId": "r1q5hjbwbqhs0ho6ide65k7e",
+      "targetId": "bqnfvv52fsgvke6spsz11e1v"
+    },
+    {
+      "id": "jdugk3oa69sgsgstdn4tftrb",
+      "sourceId": "apumdwo36jzeaszb7iw63163",
+      "targetId": "gnethhs478ruamycl9utqgi8"
+    },
+    {
+      "id": "xult2802ko3jdx45pzi7fouj",
+      "sourceId": "kqv53k7omiq6ibakmmq70l4d",
+      "targetId": "akj043n0770whwpya0g342mc"
+    },
+    {
+      "id": "o0u462ntb7pq05iztlu65xlu",
+      "sourceId": "kdb400lrf6drlv6jjadtiuya",
+      "targetId": "ro6bj6m8oc11wflu4fjqm9pg"
+    },
+    {
+      "id": "f944ez8f7lf95lnqmkjkrwiv",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "akj043n0770whwpya0g342mc"
+    },
+    {
+      "id": "i5841rdrd7xkapd2hpe9d3y4",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "ldis1r62q7gso3d2vlnzs3os"
+    },
+    {
+      "id": "j5841rdrd7xkapd2hpe9d3z5",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "hdis1r62q7gso3d2vlnzs4pt"
+    },
+    {
+      "id": "k5841rdrd7xkapd2hpe9d3y6",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "idis1r62q7gso3d2vlnzs5qu"
+    },
+    {
+      "id": "pxodwm4ngzo74k7pcg5qu2wx",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "ha5bltx3ygb58xqqohxisxtr"
+    },
+    {
+      "id": "wayisgjfeecwsrpcgs1f5shy",
+      "sourceId": "tjembh54eisjuyhtcwzb615x",
+      "targetId": "gpptpa33vce1ghxbwrrux4pv"
+    },
+    {
+      "id": "skj3drxxtk3d0ro3sa17efi2",
+      "sourceId": "qv2n0jzhhksfeti5pnr1m0w7",
+      "targetId": "p1hpa67k6s9awt5kxwrf6tk8"
+    },
+    {
+      "id": "brpmjwr9t8zcab04xfs7kko1",
+      "sourceId": "wdp100nbp99isz09hoxlqshu",
+      "targetId": "akj043n0770whwpya0g342mc"
+    },
+    {
+      "id": "a0vssfv4cmwpfkbyt4espacn",
+      "sourceId": "wdp100nbp99isz09hoxlqshu",
+      "targetId": "ncv8y2it6ztnbisj855849py"
+    },
+    {
+      "id": "a1vssfv4cmwpfkbyt4espack",
+      "sourceId": "wdp100nbp99isz09hoxlqshu",
+      "targetId": "tynlc4nnsgdqp8q0u9zpgbkc"
+    },
+    {
+      "id": "uhz68gub6k6npljh5m3ptbow",
+      "sourceId": "wdp100nbp99isz09hoxlqshu",
+      "targetId": "iwq5da0t92yjhb57ysvrbrax"
+    },
+    {
+      "id": "rayyb3ora61ogpwq2yxhbe68",
+      "sourceId": "kqv53k7omiq6ibakmmq70l4d",
+      "targetId": "l4j06zz6e51xvkgqt5zj9ucy"
+    },
+    {
+      "id": "z309q1qkav30ao0lf86hn5ag",
+      "sourceId": "kqv53k7omiq6ibakmmq70l4d",
+      "targetId": "u4j06zz6e51xvkgqt5zj9udz"
+    },
+    {
+      "id": "tkj3drxxtk3d0ro3sa17efi3",
+      "sourceId": "rv2n0jzhhksfeti5pnr1m0w8",
+      "targetId": "p1hpa67k6s9awt5kxwrf6tk8"
+    },
+    {
+      "id": "ukj3drxxtk3d0ro3sa17efi4",
+      "sourceId": "sv2n0jzhhksfeti5pnr1m0w9",
+      "targetId": "p1hpa67k6s9awt5kxwrf6tk8"
+    },
+    {
+      "id": "e8xb4gcpqwi99e05cwq2qrw0",
+      "sourceId": "vxvhlnnf38g3pnr4tnhyhvnd",
+      "targetId": "bqnfvv52fsgvke6spsz11e1v"
+    },
+    {
+      "id": "f8xb4gcpqwi99e05cwq2qrw1",
+      "sourceId": "wxvhlnnf38g3pnr4tnhyhvne",
+      "targetId": "bqnfvv52fsgvke6spsz11e1v"
+    }
+  ],
+  "variables": [
+    {
+      "id": "vgyzqpdq4ae0w81ygb3537wud",
+      "name": "remoteJid"
+    },
+    {
+      "id": "vai31zx856f8r38st6ysgw0nb",
+      "name": "textInput1"
+    },
+    {
+      "id": "vyiyy4xdb2idmq03echu3jz1o",
+      "name": "menuOption"
+    },
+    {
+      "id": "vtmqf0ml6g0kgig0vm20fprsp",
+      "name": "catalogOption"
+    }
+  ],
+  "theme": {
+    "chat": {
+      "inputs": {
+        "color": "#303235",
+        "backgroundColor": "#FFFFFF",
+        "placeholderColor": "#9095A0"
+      },
+      "buttons": {
+        "backgroundColor": "#0042DA",
+        "color": "#FFFFFF"
+      },
+      "hostAvatar": {
+        "isEnabled": true
+      },
+      "hostBubbles": {
+        "backgroundColor": "#F7F8FF",
+        "color": "#303235"
+      },
+      "guestBubbles": {
+        "backgroundColor": "#FF8E21",
+        "color": "#FFFFFF"
+      }
+    }
+  },
+  "settings": {
+    "general": {
+      "isBrandingEnabled": true,
+      "isInputPrefillEnabled": true,
+      "isHideQueryParamsEnabled": true,
+      "isNewResultOnRefreshEnabled": true
+    },
+    "metadata": {
+      "description": "Loja Virtual de Chinelos para WhatsApp"
+    },
+    "whatsApp": {
+      "isEnabled": true,
+      "startCondition": "Always send",
+      "sessionExpiryTimeout": 28800,
+      "rememberUser": {
+        "isEnabled": true
+      },
+      "credentialsId": "cl8i7cdkh0000mhwr7l6a8e3s"
+    }
+  }
+}
